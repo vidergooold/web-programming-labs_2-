@@ -1,4 +1,5 @@
 from flask import Flask, url_for, redirect
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -29,7 +30,15 @@ def index():
 
 @app.route("/lab1")  # Маршрут для первой лабораторной
 def lab1():
-    return '''
+    # Генерируем ссылки на все маршруты
+    web_url = url_for('web')
+    author_url = url_for('author')
+    oak_url = url_for('oak')
+    counter_url = url_for('counter')
+    reset_counter_url = url_for('reset_counter')
+    custom_url = url_for('custom_page')
+
+    return f'''
 <!doctype html>
 <html>
     <head>
@@ -42,6 +51,17 @@ def lab1():
         Относится к категории так называемых микрофреймворков — минималистичных каркасов 
         веб-приложений, сознательно предоставляющих лишь самые базовые возможности.</p>
         <a href="/">Вернуться на главную</a> <!-- Ссылка на корень сайта -->
+    
+    <h2>Список роутов</h2>
+        <ul>
+            <li><a href="/">Главная страница</a></li>
+            <li><a href="{web_url}">Web-сервер</a></li>
+            <li><a href="{author_url}">Author</a></li>
+            <li><a href="{oak_url}">Oak</a></li>
+            <li><a href="{counter_url}">Counter</a></li>
+            <li><a href="{reset_counter_url}">Reset Counter</a></li>
+            <li><a href="{custom_url}">Custom Page</a></li>
+        </ul>
     </body>
 </html>
 '''
@@ -52,7 +72,7 @@ def web():
         <html>
              <body>
                   <h1>web-сервер на flask</h1>
-                  <a href="/author">author</a>
+                  <a href="/lab1/author">author</a>
              </body>
         </html>""", 200, {
             'X-Server': 'sample',
@@ -65,12 +85,12 @@ def author():
     group = "ФБИ-22"
     faculty = "ФБ"
 
-    return """<!doctype html>
+    return f"""<!doctype html>
         <html>
             <body>
-                <p>Студент: """ + name + """</p>
-                <p>Группа: """ + group + """</p>
-                <p>Факультет: """ + faculty + """</p>
+                <p>Студент: {name}</p>
+                <p>Группа: {group}</p>
+                <p>Факультет: {faculty}</p>
                 <a href="/lab1/web">web</a>
             </body>
         </html>"""
@@ -79,15 +99,15 @@ def author():
 def oak():
     path = url_for("static", filename="oak.jpg")
     css_path = url_for("static", filename="lab1.css")
-    return '''
+    return f'''
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="''' + css_path + '''">
+        <link rel="stylesheet" type="text/css" href="{css_path}">
     </head>
     <body>
         <h1>Дуб</h1>
-        <img src="''' + path + '''">
+        <img src="{path}">
     </body>
 </html>
 '''
@@ -99,12 +119,12 @@ def counter():
     global count
     count += 1
     reset_url = url_for('reset_counter')  # URL для сброса счётчика
-    return '''
+    return f'''
 <!doctype html>
 <html>
     <body>
-        Сколько раз вы сюда заходили: ''' + str(count) + '''
-        <a href="''' + reset_url + '''">Очистить счётчик</a> <!-- Ссылка для сброса счётчика -->
+        Сколько раз вы сюда заходили: {count}
+        <a href="{reset_url}">Очистить счётчик</a> <!-- Ссылка для сброса счётчика -->
     </body>
 </html>
 '''
@@ -122,6 +142,53 @@ def reset_counter():
     </body>
 </html>
 '''
+
+@app.route("/custom")
+def custom_page():
+    # Путь к изображению в папке static
+    image_path = url_for('static', filename='duolingo.jpg')
+    
+    # HTML-контент
+    content = f"""
+    <!doctype html>
+    <html>
+        <head>
+            <title>Текстовая страница с изображением</title>
+        </head>
+        <body>
+            <h1>Добро пожаловать на нашу страницу!</h1>
+            <p>Этот сайт посвящен всему, что связано с программированием
+             на Python. 
+            Python — это один из самых популярных языков программирования, 
+            который используется для создания веб-приложений, анализа 
+            данных, автоматизации задач и многого другого.</p>
+            
+            <p>Flask — это микрофреймворк для веб-программирования на 
+            Python. Flask обеспечивает минимальный каркас, что позволяет 
+            разработчикам добавлять нужные компоненты самостоятельно, 
+            а не следовать за предопределённой архитектурой.</p>
+            
+            <p>На этой странице мы можем обсудить преимущества 
+            микрофреймворков. Они предоставляют свободу разработчику в 
+            выборе библиотек и подходов, делая систему гибкой и 
+            расширяемой.</p>
+            
+            <p>Для начала работы с Flask вам потребуется только 
+            минимальная установка, а базовый "Hello World" сервер 
+            может быть запущен в считанные минуты.</p>
+            
+            <img src="{image_path}" alt="Sample Image" width="400px">
+        </body>
+    </html>
+    """
+
+    # Возвращаем HTML-контент с заголовками
+    return content, 200, {
+        'Content-Language': 'ru',  # Указываем язык содержимого страницы (русский)
+        'X-Powered-By': 'Flask',  # Дополнительный заголовок
+        'X-Custom-Header': 'My Custom Header',  # Ещё один заголовок
+        'Content-Type': 'text/html; charset=utf-8'  # Указываем тип контента и кодировку
+    }
 
 @app.route("/lab1/info")
 def info():
@@ -288,50 +355,3 @@ def internal_server_error(e):
 def cause_error():
     return 1 / 0  # Ошибка деления на ноль
 
-
-@app.route("/custom")
-def custom_page():
-    # Путь к изображению в папке static
-    image_path = url_for('static', filename='duolingo.jpg')
-    
-    # HTML-контент
-    content = f"""
-    <!doctype html>
-    <html>
-        <head>
-            <title>Текстовая страница с изображением</title>
-        </head>
-        <body>
-            <h1>Добро пожаловать на нашу страницу!</h1>
-            <p>Этот сайт посвящен всему, что связано с программированием
-             на Python. 
-            Python — это один из самых популярных языков программирования, 
-            который используется для создания веб-приложений, анализа 
-            данных, автоматизации задач и многого другого.</p>
-            
-            <p>Flask — это микрофреймворк для веб-программирования на 
-            Python. Flask обеспечивает минимальный каркас, что позволяет 
-            разработчикам добавлять нужные компоненты самостоятельно, 
-            а не следовать за предопределённой архитектурой.</p>
-            
-            <p>На этой странице мы можем обсудить преимущества 
-            микрофреймворков. Они предоставляют свободу разработчику в 
-            выборе библиотек и подходов, делая систему гибкой и 
-            расширяемой.</p>
-            
-            <p>Для начала работы с Flask вам потребуется только 
-            минимальная установка, а базовый "Hello World" сервер 
-            может быть запущен в считанные минуты.</p>
-            
-            <img src="{image_path}" alt="Sample Image" width="400px">
-        </body>
-    </html>
-    """
-
-    # Возвращаем HTML-контент с заголовками
-    return content, 200, {
-        'Content-Language': 'ru',  # Указываем язык содержимого страницы (русский)
-        'X-Powered-By': 'Flask',  # Дополнительный заголовок
-        'X-Custom-Header': 'My Custom Header',  # Ещё один заголовок
-        'Content-Type': 'text/html; charset=utf-8'  # Указываем тип контента и кодировку
-    }
