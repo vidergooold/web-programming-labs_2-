@@ -2,6 +2,32 @@ from flask import Flask, url_for, redirect
 app = Flask(__name__)
 
 @app.route("/")
+@app.route("/index")  # Маршруты для главной страницы
+def index():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>НГТУ, ФБ, Лабораторные работы</title>
+    </head>
+    <body>
+        <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
+        <nav>
+            <ul>
+                <li><a href="/lab1">Первая лабораторная</a></li> <!-- Ссылка на первую лабораторную -->
+            </ul>
+        </nav>
+        <footer>
+            <p>ФИО: Видергольд Ирина Сергеевна</p>
+            <p>Группа: ФБИ-22</p>
+            <p>Курс: 2</p>
+            <p>Год: 2024</p>
+        </footer>
+    </body>
+</html>
+'''
+
+@app.route("/")
 @app.route("/lab1/web")
 def web():
     return """<!doctype html>
