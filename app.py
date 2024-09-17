@@ -138,3 +138,79 @@ def created():
     </body>
 </html>
 ''', 201
+
+@app.route("/400")
+def bad_request():
+    return '''
+<!doctype html>
+<html>
+    <body>
+        <h1>400 - Bad Request</h1>
+        <p>Ваш запрос был неверен. Проверьте параметры и попробуйте 
+        снова.</p>
+    </body>
+</html>
+''', 400
+
+@app.route("/401")
+def unauthorized():
+    return '''
+<!doctype html>
+<html>
+    <body>
+        <h1>401 - Unauthorized</h1>
+        <p>Для доступа к этому ресурсу требуется аутентификация. 
+        Пожалуйста, войдите в систему.</p>
+    </body>
+</html>
+''', 401
+
+@app.route("/402")
+def payment_required():
+    return '''
+<!doctype html>
+<html>
+    <body>
+        <h1>402 - Payment Required</h1>
+        <p>Этот ресурс требует оплаты. Пожалуйста, произведите платеж, 
+        чтобы продолжить.</p>
+    </body>
+</html>
+''', 402
+
+@app.route("/403")
+def forbidden():
+    return '''
+<!doctype html>
+<html>
+    <body>
+        <h1>403 - Forbidden</h1>
+        <p>У вас нет прав доступа к этому ресурсу.</p>
+    </body>
+</html>
+''', 403
+
+@app.route("/405")
+def method_not_allowed():
+    return '''
+<!doctype html>
+<html>
+    <body>
+        <h1>405 - Method Not Allowed</h1>
+        <p>Метод, использованный в запросе, не поддерживается 
+        для этого ресурса.</p>
+    </body>
+</html>
+''', 405
+
+@app.route("/418")
+def im_a_teapot():
+    return '''
+<!doctype html>
+<html>
+    <body>
+        <h1>418 - I'm a teapot</h1>
+        <p>Я — чайник. RFC 2324 гласит, что этот сервер не может заварить кофе, так как он является чайником.</p>
+    </body>
+</html>
+''', 418
