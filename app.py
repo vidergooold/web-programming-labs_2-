@@ -214,3 +214,53 @@ def im_a_teapot():
     </body>
 </html>
 ''', 418
+
+@app.errorhandler(404)
+def page_not_found(e):
+    image_path = url_for('static', filename='delulu.jpg')
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>404 - Страница не найдена</title>
+        <style>
+            body {
+                background-color: #f8f9fa;
+                color: #333;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 50px;
+            }
+            h1 {
+                font-size: 3em;
+                margin-bottom: 20px;
+                color: #ff6f61;
+            }
+            p {
+                font-size: 1.2em;
+                margin-bottom: 30px;
+            }
+            img {
+                width: 300px;
+                height: auto;
+                margin-bottom: 30px;
+            }
+            a {
+                text-decoration: none;
+                color: #007bff;
+                font-weight: bold;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>404 - Страница потерялась</h1>
+        <p>Извините, но мы не можем найти нужную вам страницу.</p>
+        <img src="''' + image_path + '''" alt="404 - Not Found">
+        <p>Попробуйте вернуться на <a href="/">главную страницу</a> 
+        и продолжить навигацию оттуда.</p>
+    </body>
+</html>
+''', 404
