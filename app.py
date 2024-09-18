@@ -459,3 +459,10 @@ def internal_server_error(e):
 def cause_error():
     return 1 / 0  # Ошибка деления на ноль
 
+@app.route('/lab2/a')
+def a():
+    return 'без слэша'
+
+@app.route('/lab2/a/')
+def a2():
+    return 'со слэшем'
