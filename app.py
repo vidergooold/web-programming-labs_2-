@@ -2,31 +2,151 @@ from flask import Flask, url_for, redirect
 
 app = Flask(__name__)
 
+# Глобальная переменная для отслеживания состояния ресурса
+resource_created = False
+
 @app.route("/")
 @app.route("/index")  # Маршруты для главной страницы
 def index():
-    return '''
+    css_path = url_for('static', filename='style.css')
+    return f'''
 <!doctype html>
 <html>
     <head>
         <title>НГТУ, ФБ, Лабораторные работы</title>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
     </head>
     <body>
-        <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
-        <nav>
-            <ul>
-                <li><a href="/lab1">Первая лабораторная</a></li> <!-- Ссылка на первую лабораторную -->
-            </ul>
-        </nav>
-        <footer>
-            <p>ФИО: Видергольд Ирина Сергеевна</p>
-            <p>Группа: ФБИ-22</p>
-            <p>Курс: 2</p>
-            <p>Год: 2024</p>
-        </footer>
+        <div class="container">
+            <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
+            <nav>
+                <ul>
+                    <li><a href="/lab1/resource">Управление ресурсом</a></li>
+                </ul>
+            </nav>
+            <footer>
+                <p>ФИО: Видергольд Ирина Сергеевна</p>
+                <p>Группа: ФБИ-22</p>
+                <p>Курс: 2</p>
+                <p>Год: 2024</p>
+            </footer>
+        </div>
     </body>
 </html>
 '''
+
+# Родительская страница для управления ресурсом
+@app.route("/lab1/resource")
+def resource_page():
+    global resource_created
+    css_path = url_for('static', filename='style.css')
+    
+    if resource_created:
+        status = "Ресурс создан"
+    else:
+        status = "Ресурс ещё не создан"
+    
+    create_url = url_for('create_resource')
+    delete_url = url_for('delete_resource')
+
+    return f'''
+<!doctype html>
+<html>
+    <head>
+        <title>Управление ресурсом</title>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Статус ресурса</h1>
+            <p>{status}</p>
+            <nav>
+                <ul>
+                    <li><a href="{create_url}">Создать ресурс</a></li>
+                    <li><a href="{delete_url}">Удалить ресурс</a></li>
+                </ul>
+            </nav>
+            <a href="/">Вернуться на главную</a>
+        </div>
+    </body>
+</html>
+'''
+
+# Обработчик для создания ресурса
+@app.route("/lab1/created")
+def create_resource():
+    global resource_created
+    css_path = url_for('static', filename='style.css')
+
+    if not resource_created:
+        resource_created = True
+        return f'''
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Успешно: ресурс создан</h1>
+            <a href="/lab1/resource">Вернуться к ресурсу</a>
+        </div>
+    </body>
+</html>
+''', 201
+    else:
+        return f'''
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Отказано: ресурс уже создан</h1>
+            <a href="/lab1/resource">Вернуться к ресурсу</a>
+        </div>
+    </body>
+</html>
+''', 400
+
+# Обработчик для удаления ресурса
+@app.route("/lab1/delete")
+def delete_resource():
+    global resource_created
+    css_path = url_for('static', filename='style.css')
+
+    if resource_created:
+        resource_created = False
+        return f'''
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Успешно: ресурс удалён</h1>
+            <a href="/lab1/resource">Вернуться к ресурсу</a>
+        </div>
+    </body>
+</html>
+''', 200
+    else:
+        return f'''
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Отказано: ресурс отсутствует</h1>
+            <a href="/lab1/resource">Вернуться к ресурсу</a>
+        </div>
+    </body>
+</html>
+''', 400
 
 @app.route("/lab1")  # Маршрут для первой лабораторной
 def lab1():
@@ -189,22 +309,6 @@ def custom_page():
         'X-Custom-Header': 'My Custom Header',  # Ещё один заголовок
         'Content-Type': 'text/html; charset=utf-8'  # Указываем тип контента и кодировку
     }
-
-@app.route("/lab1/info")
-def info():
-    return redirect("/lab1/author")
-
-@app.route("/lab1/created")
-def created():
-    return '''
-<!doctype html>
-<html>
-    <body>
-        <h1>Создано успешно</h1>
-        <div><i>что-то создано...</i></div>
-    </body>
-</html>
-''', 201
 
 @app.route("/400")
 def bad_request():
