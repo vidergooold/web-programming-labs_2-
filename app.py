@@ -491,6 +491,24 @@ def example():
     lab_num2 = '2'
     group = 'ФБИ-22'
     number = '3'
-    return render_template('example.html', name=name, lab_num1=lab_num1, lab_num2=lab_num2, group=group, number=number)
+    fruits = [
+        {'name': 'apples', 'price': 100},
+        {'name': 'pears', 'price': 150}, 
+        {'name': 'oranges', 'price': 90}, 
+        {'name': 'mangos', 'price': 120}, 
+        {'name': 'cherries', 'price': 200}
+    ]
+    return render_template('example.html', 
+                           name=name, lab_num1=lab_num1, lab_num2=lab_num2, 
+                           group=group, number=number, fruits=fruits) 
+
+@app.route('/lab2/')
+def lab2():
+    return render_template('lab2.html')
+
+@app.route('/lab2/filter')
+def filter():
+    phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
+    return render_template('filter.html', phrase = phrase)
 
 
