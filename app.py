@@ -621,4 +621,16 @@ books = [
 def show_books():
     return render_template('books.html', books=books)
 
+# Список ягод с информацией: название, описание, имя файла картинки
+berries = [
+    {"name": "Клубника", "description": "Сочная красная ягода, богата витаминами.", "image": "strawberry.jpg"},
+    {"name": "Голубика", "description": "Мелкие синие ягоды, отлично подходят для десертов.", "image": "blueberry.jpg"},
+    {"name": "Малина", "description": "Сладкая и ароматная ягода с лёгкой кислинкой.", "image": "raspberry.jpg"},
+    {"name": "Ежевика", "description": "Тёмные, почти чёрные ягоды с насыщенным вкусом.", "image": "blackberry.jpg"},
+    {"name": "Вишня", "description": "Кисло-сладкая ягода, популярная в выпечке.", "image": "cherry.jpg"}
+]
+
+@app.route('/berries')
+def show_berries():
+    return render_template('berries.html', berries=berries)
 
