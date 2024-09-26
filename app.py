@@ -22,12 +22,13 @@ def index():
             <nav>
                 <ul>
                     <li><a href="/lab1/resource">Управление ресурсом</a></li>
+                    <li><a href="/lab2">Лабораторная 2</a></li>
                 </ul>
             </nav>
             <footer>
                 <p>ФИО: Видергольд Ирина Сергеевна</p>
                 <p>Группа: ФБИ-22</p>
-                <p>Курс: 2</p>
+                <p>Курс: 3</p>
                 <p>Год: 2024</p>
             </footer>
         </div>
@@ -459,6 +460,31 @@ def internal_server_error(e):
 def cause_error():
     return 1 / 0  # Ошибка деления на ноль
 
+@app.route('/lab2', strict_slashes=False)  # Теперь будет работать и без слэша, и со слэшем
+def lab2():
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>Лабораторная 2 - Ссылки</title>
+    </head>
+    <body>
+        <h1>Список доступных адресов для лабораторной 2:</h1>
+        <ul>
+            <li><a href="/lab2/calc/1/1">Калькулятор (1+1)</a></li>
+            <li><a href="/lab2/calc/3">Калькулятор (3+1)</a></li>
+            <li><a href="/lab2/calc">Калькулятор (по умолчанию 1+1)</a></li>
+            <li><a href="/lab2/flowers">Список всех цветов</a></li>
+            <li><a href="/lab2/clear_flowers">Очистить список цветов</a></li>
+            <li><a href="/lab2/filter">Фильтры</a></li>
+            <li><a href="/lab2/example">Пример</a></li>
+            <li><a href="/lab2/berries">Ягоды</a></li>
+            <li><a href="/lab2/books">Книги</a></li>
+        </ul>
+    </body>
+</html>
+'''
+
 @app.route('/lab2/a')
 def a():
     return 'без слэша'
@@ -558,11 +584,7 @@ def example():
     ]
     return render_template('example.html', 
                            name=name, lab_num1=lab_num1, lab_num2=lab_num2, 
-                           group=group, number=number, fruits=fruits) 
-
-@app.route('/lab2/')
-def lab2():
-    return render_template('lab2.html')
+                           group=group, number=number, fruits=fruits)
 
 @app.route('/lab2/filter')
 def filter():
@@ -617,7 +639,7 @@ books = [
 ]
 
 # Маршрут для вывода списка книг с использованием шаблона
-@app.route('/books')
+@app.route('/lab2/books')
 def show_books():
     return render_template('books.html', books=books)
 
@@ -630,7 +652,7 @@ berries = [
     {"name": "Вишня", "description": "Кисло-сладкая ягода, популярная в выпечке.", "image": "cherry.jpg"}
 ]
 
-@app.route('/berries')
+@app.route('/lab2/berries')
 def show_berries():
     return render_template('berries.html', berries=berries)
 
