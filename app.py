@@ -469,20 +469,78 @@ def a2():
 
 flower_list = ['rose', 'tulip', 'violet', 'daisy']
 
-@app.route('/lab2/add_flower/<name>')
+# Маршрут для добавления цветка
+@app.route('/lab2/add_flower/', defaults={'name': None})
+@app.route('/lab2/add_flower/<string:name>')
 def add_flower(name):
-    flower_list.append(name)
-    return f'''
-<!doctype html>
-<html>
-    <body>
-    <h1>Добавлен новый цветок</h1>
-    <p>Название нового цветка: {name} </p>
-    <p>Всего цветов: {len(flower_list)}</p>
-    <p>Полный список: {flower_list}</p>
-    </body>
-</html>
-'''
+    global flower_list 
+    if not name:
+        return "Вы не задали имя цветка", 400
+
+    flower_list.append(name)  # Добавляем цветок в список
+
+    return f"""
+        <html>
+        <body>
+            <h1>Цветок {name} был успешно добавлен!</h1>
+            <p>Теперь в списке {len(flower_list)} цветов.</p>
+            <h2>Список всех цветов:</h2>
+            <ul>
+                {''.join(f"<li>{flower}</li>" for flower in flower_list)}
+            </ul>
+            <br>
+            <a href='/lab2/flowers'>Посмотреть все цветы</a>
+        </body>
+        </html>
+    """
+
+# Маршрут для вывода всех цветов
+@app.route('/lab2/flowers')
+def show_flowers():
+    global flower_list 
+    if not flower_list:
+        return """
+            <html>
+            <body>
+                <h1>Список цветов пуст.</h1>
+                <br>
+                <a href='/lab2/add_flower/'>Добавить первый цветок</a>
+            </body>
+            </html>
+        """
+    
+    flowers_html = "<ul>"
+    for flower in flower_list:
+        flowers_html += f"<li>{flower}</li>"
+    flowers_html += "</ul>"
+    
+    return f"""
+        <html>
+        <body>
+            <h1>Всего цветов: {len(flower_list)}</h1>
+            <h2>Список всех цветов:</h2>
+            {flowers_html}
+            <br>
+            <a href='/lab2/clear_flowers'>Очистить список цветов</a>
+        </body>
+        </html>
+    """
+
+# Маршрут для очистки списка цветов
+@app.route('/lab2/clear_flowers')
+def clear_flowers():
+    global flower_list 
+    flower_list.clear()
+
+    return """
+        <html>
+        <body>
+            <h1>Список цветов был успешно очищен!</h1>
+            <br>
+            <a href='/lab2/flowers'>Посмотреть все цветы</a>
+        </body>
+        </html>
+    """
 
 @app.route('/lab2/example')
 def example():
@@ -510,5 +568,6 @@ def lab2():
 def filter():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase = phrase)
+
 
 
