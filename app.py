@@ -569,5 +569,35 @@ def filter():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
     return render_template('filter.html', phrase = phrase)
 
+# Основной маршрут для вычислений с двумя числами
+@app.route('/lab2/calc/<int:a>/<int:b>')
+def calc(a, b):
+    result_add = a + b
+    result_sub = a - b
+    result_mul = a * b
+    result_div = a / b if b != 0 else '∞'
+    result_pow = a ** b
 
+    return f"""
+    <html>
+    <body>
+        <h2>Расчёт с параметрами:</h2>
+        <p>{a} + {b} = {result_add}</p>
+        <p>{a} - {b} = {result_sub}</p>
+        <p>{a} × {b} = {result_mul}</p>
+        <p>{a} / {b} = {result_div}</p>
+        <p>{a}<sup>{b}</sup> = {result_pow}</p>
+    </body>
+    </html>
+    """
+
+# Перенаправление с /lab2/calc/ на /lab2/calc/1/1
+@app.route('/lab2/calc/', strict_slashes=False)
+def default_calc():
+    return redirect(url_for('calc', a=1, b=1))
+
+# Перенаправление с /lab2/calc/<int:a> на /lab2/calc/a/1
+@app.route('/lab2/calc/<int:a>', strict_slashes=False)
+def calc_with_one(a):
+    return redirect(url_for('calc', a=a, b=1))
 
