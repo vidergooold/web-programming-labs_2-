@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ягоды
+{% endblock %}
+
+{% block main %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .berry-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .berry-item {
+            width: 200px;
+            background-color: white;
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .berry-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .berry-item h3 {
+            margin: 10px 0 5px;
+            font-size: 18px;
+        }
+        .berry-item p {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+
+    <h1>Ягоды</h1>
+
+    <div class="berry-list">
+        {% for berry in berries %}
+        <div class="berry-item">
+            <img src="{{ url_for('static', filename='images/' + berry.image) }}" alt="{{ berry.name }}">
+            <h3>{{ berry.name }}</h3>
+            <p>{{ berry.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -6,15 +6,17 @@ app = Flask(__name__)
 resource_created = False
 
 @app.route("/")
-@app.route("/index")  # Маршруты для главной страницы
+@app.route("/index")
 def index():
     css_path = url_for('static', filename='style.css')
+    favicon_path = url_for('static', filename='favicon.ico')
     return f'''
 <!doctype html>
 <html>
     <head>
         <title>НГТУ, ФБ, Лабораторные работы</title>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <div class="container">
@@ -36,11 +38,11 @@ def index():
 </html>
 '''
 
-# Родительская страница для управления ресурсом
 @app.route("/lab1/resource")
 def resource_page():
     global resource_created
     css_path = url_for('static', filename='style.css')
+    favicon_path = url_for('static', filename='favicon.ico')
     
     if resource_created:
         status = "Ресурс создан"
@@ -56,6 +58,7 @@ def resource_page():
     <head>
         <title>Управление ресурсом</title>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <div class="container">
@@ -73,11 +76,11 @@ def resource_page():
 </html>
 '''
 
-# Обработчик для создания ресурса
 @app.route("/lab1/created")
 def create_resource():
     global resource_created
     css_path = url_for('static', filename='style.css')
+    favicon_path = url_for('static', filename='favicon.ico')
 
     if not resource_created:
         resource_created = True
@@ -86,6 +89,7 @@ def create_resource():
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <div class="container">
@@ -101,6 +105,7 @@ def create_resource():
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <div class="container">
@@ -111,11 +116,11 @@ def create_resource():
 </html>
 ''', 400
 
-# Обработчик для удаления ресурса
 @app.route("/lab1/delete")
 def delete_resource():
     global resource_created
     css_path = url_for('static', filename='style.css')
+    favicon_path = url_for('static', filename='favicon.ico')
 
     if resource_created:
         resource_created = False
@@ -124,6 +129,7 @@ def delete_resource():
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <div class="container">
@@ -139,6 +145,7 @@ def delete_resource():
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <div class="container">
@@ -149,8 +156,11 @@ def delete_resource():
 </html>
 ''', 400
 
-@app.route("/lab1")  # Маршрут для первой лабораторной
+@app.route("/lab1")
 def lab1():
+    css_path = url_for('static', filename='style.css')
+    favicon_path = url_for('static', filename='favicon.ico')
+
     # Генерируем ссылки на все маршруты
     web_url = url_for('web')
     author_url = url_for('author')
@@ -164,16 +174,14 @@ def lab1():
 <html>
     <head>
         <title>Лабораторная 1</title>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <h1>Лабораторная 1</h1>
-        <p>Flask — фреймворк для создания веб-приложений на языке программирования 
-        Python, использующий набор инструментов Werkzeug, а также шаблонизатор Jinja2. 
-        Относится к категории так называемых микрофреймворков — минималистичных каркасов 
-        веб-приложений, сознательно предоставляющих лишь самые базовые возможности.</p>
-        <a href="/">Вернуться на главную</a> <!-- Ссылка на корень сайта -->
-    
-    <h2>Список роутов</h2>
+        <p>Flask — фреймворк для создания веб-приложений на языке программирования Python.</p>
+        <a href="/">Вернуться на главную</a>
+        <h2>Список роутов</h2>
         <ul>
             <li><a href="/">Главная страница</a></li>
             <li><a href="{web_url}">Web-сервер</a></li>
@@ -189,42 +197,56 @@ def lab1():
 
 @app.route("/lab1/web")
 def web():
-    return """<!doctype html>
-        <html>
-             <body>
-                  <h1>web-сервер на flask</h1>
-                  <a href="/lab1/author">author</a>
-             </body>
-        </html>""", 200, {
-            'X-Server': 'sample',
-            'Content-Type': 'text/plain; charset=utf-8'
-        }
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f"""
+<!doctype html>
+<html>
+    <head>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
+    <body>
+        <h1>web-сервер на flask</h1>
+        <a href="/lab1/author">author</a>
+    </body>
+</html>
+""", 200, {
+        'X-Server': 'sample',
+        'Content-Type': 'text/plain; charset=utf-8'
+    }
 
 @app.route("/lab1/author")
 def author():
     name = "Видергольд Ирина Сергеевна"
     group = "ФБИ-22"
     faculty = "ФБ"
+    favicon_path = url_for('static', filename='favicon.ico')
 
-    return f"""<!doctype html>
-        <html>
-            <body>
-                <p>Студент: {name}</p>
-                <p>Группа: {group}</p>
-                <p>Факультет: {faculty}</p>
-                <a href="/lab1/web">web</a>
-            </body>
-        </html>"""
+    return f'''
+<!doctype html>
+<html>
+    <head>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
+    <body>
+        <p>Студент: {name}</p>
+        <p>Группа: {group}</p>
+        <p>Факультет: {faculty}</p>
+        <a href="/lab1/web">web</a>
+    </body>
+</html>
+'''
 
 @app.route("/lab1/oak")
 def oak():
     path = url_for("static", filename="oak.jpg")
     css_path = url_for("static", filename="lab1.css")
+    favicon_path = url_for('static', filename='favicon.ico')
     return f'''
 <!doctype html>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <h1>Дуб</h1>
@@ -239,13 +261,17 @@ count = 0
 def counter():
     global count
     count += 1
-    reset_url = url_for('reset_counter')  # URL для сброса счётчика
+    reset_url = url_for('reset_counter')
+    favicon_path = url_for('static', filename='favicon.ico')
     return f'''
 <!doctype html>
 <html>
+    <head>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         Сколько раз вы сюда заходили: {count}
-        <a href="{reset_url}">Очистить счётчик</a> <!-- Ссылка для сброса счётчика -->
+        <a href="{reset_url}">Очистить счётчик</a>
     </body>
 </html>
 '''
@@ -253,10 +279,14 @@ def counter():
 @app.route("/lab1/reset_counter")
 def reset_counter():
     global count
-    count = 0  # Сброс значения счётчика
-    return '''
+    count = 0
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <p>Счётчик был сброшен.</p>
         <a href="/lab1/counter">Вернуться на страницу счётчика</a>
@@ -266,42 +296,22 @@ def reset_counter():
 
 @app.route("/custom")
 def custom_page():
-    # Путь к изображению в папке static
     image_path = url_for('static', filename='duolingo.jpg')
+    favicon_path = url_for('static', filename='favicon.ico')
     
-    # HTML-контент
-    content = f"""
-    <!doctype html>
-    <html>
-        <head>
-            <title>Текстовая страница с изображением</title>
-        </head>
-        <body>
-            <h1>Добро пожаловать на нашу страницу!</h1>
-            <p>Этот сайт посвящен всему, что связано с программированием
-             на Python. 
-            Python — это один из самых популярных языков программирования, 
-            который используется для создания веб-приложений, анализа 
-            данных, автоматизации задач и многого другого.</p>
-            
-            <p>Flask — это микрофреймворк для веб-программирования на 
-            Python. Flask обеспечивает минимальный каркас, что позволяет 
-            разработчикам добавлять нужные компоненты самостоятельно, 
-            а не следовать за предопределённой архитектурой.</p>
-            
-            <p>На этой странице мы можем обсудить преимущества 
-            микрофреймворков. Они предоставляют свободу разработчику в 
-            выборе библиотек и подходов, делая систему гибкой и 
-            расширяемой.</p>
-            
-            <p>Для начала работы с Flask вам потребуется только 
-            минимальная установка, а базовый "Hello World" сервер 
-            может быть запущен в считанные минуты.</p>
-            
-            <img src="{image_path}" alt="Sample Image" width="400px">
-        </body>
-    </html>
-    """
+    return f"""
+<!doctype html>
+<html>
+    <head>
+        <title>Текстовая страница с изображением</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
+    <body>
+        <h1>Добро пожаловать на нашу страницу!</h1>
+        <img src="{image_path}" alt="Sample Image" width="400px">
+    </body>
+</html>
+"""
 
     # Возвращаем HTML-контент с заголовками
     return content, 200, {
@@ -311,50 +321,71 @@ def custom_page():
         'Content-Type': 'text/html; charset=utf-8'  # Указываем тип контента и кодировку
     }
 
+# Обработчик для ошибки 400
 @app.route("/400")
 def bad_request():
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <title>400 - Bad Request</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h1>400 - Bad Request</h1>
-        <p>Ваш запрос был неверен. Проверьте параметры и попробуйте 
-        снова.</p>
+        <p>Ваш запрос был неверен. Проверьте параметры и попробуйте снова.</p>
     </body>
 </html>
 ''', 400
 
+# Обработчик для ошибки 401
 @app.route("/401")
 def unauthorized():
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <title>401 - Unauthorized</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h1>401 - Unauthorized</h1>
-        <p>Для доступа к этому ресурсу требуется аутентификация. 
-        Пожалуйста, войдите в систему.</p>
+        <p>Для доступа к этому ресурсу требуется аутентификация. Пожалуйста, войдите в систему.</p>
     </body>
 </html>
 ''', 401
 
+# Обработчик для ошибки 402
 @app.route("/402")
 def payment_required():
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <title>402 - Payment Required</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h1>402 - Payment Required</h1>
-        <p>Этот ресурс требует оплаты. Пожалуйста, произведите платеж, 
-        чтобы продолжить.</p>
+        <p>Этот ресурс требует оплаты. Пожалуйста, произведите платеж, чтобы продолжить.</p>
     </body>
 </html>
 ''', 402
 
+# Обработчик для ошибки 403
 @app.route("/403")
 def forbidden():
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <title>403 - Forbidden</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h1>403 - Forbidden</h1>
         <p>У вас нет прав доступа к этому ресурсу.</p>
@@ -362,24 +393,35 @@ def forbidden():
 </html>
 ''', 403
 
+# Обработчик для ошибки 405
 @app.route("/405")
 def method_not_allowed():
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <title>405 - Method Not Allowed</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h1>405 - Method Not Allowed</h1>
-        <p>Метод, использованный в запросе, не поддерживается 
-        для этого ресурса.</p>
+        <p>Метод, использованный в запросе, не поддерживается для этого ресурса.</p>
     </body>
 </html>
 ''', 405
 
+# Обработчик для ошибки 418 (I'm a teapot)
 @app.route("/418")
 def im_a_teapot():
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <title>418 - I'm a teapot</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h1>418 - I'm a teapot</h1>
         <p>Я — чайник. RFC 2324 гласит, что этот сервер не может заварить кофе, так как он является чайником.</p>
@@ -387,70 +429,73 @@ def im_a_teapot():
 </html>
 ''', 418
 
+# Обработчик для ошибки 404
 @app.errorhandler(404)
 def page_not_found(e):
     image_path = url_for('static', filename='delulu.jpg')
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
     <head>
         <title>404 - Страница не найдена</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
         <style>
-            body {
+            body {{
                 background-color: #f8f9fa;
                 color: #333;
                 font-family: Arial, sans-serif;
                 text-align: center;
                 padding: 50px;
-            }
-            h1 {
+            }}
+            h1 {{
                 font-size: 3em;
                 margin-bottom: 20px;
                 color: #ff6f61;
-            }
-            p {
+            }}
+            p {{
                 font-size: 1.2em;
                 margin-bottom: 30px;
-            }
-            img {
+            }}
+            img {{
                 width: 300px;
                 height: auto;
                 margin-bottom: 30px;
-            }
-            a {
+            }}
+            a {{
                 text-decoration: none;
                 color: #007bff;
                 font-weight: bold;
-            }
-            a:hover {
+            }}
+            a:hover {{
                 text-decoration: underline;
-            }
+            }}
         </style>
     </head>
     <body>
         <h1>404 - Страница потерялась</h1>
         <p>Извините, но мы не можем найти нужную вам страницу.</p>
-        <img src="''' + image_path + '''" alt="404 - Not Found">
-        <p>Попробуйте вернуться на <a href="/">главную страницу</a> 
-        и продолжить навигацию оттуда.</p>
+        <img src="{image_path}" alt="404 - Not Found">
+        <p>Попробуйте вернуться на <a href="/">главную страницу</a> и продолжить навигацию оттуда.</p>
     </body>
 </html>
 ''', 404
 
+# Обработчик для ошибки 500
 @app.errorhandler(500)
 def internal_server_error(e):
-    return '''
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
     <head>
-        <title>Ошибка 500 - Внутренняя ошибка сервера</title>
+        <title>500 - Внутренняя ошибка сервера</title>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <h1>500 - Внутренняя ошибка сервера</h1>
-        <p>На сервере произошла ошибка. Мы работаем над её 
-        исправлением.</p>
-        <p>Пожалуйста, вернитесь на <a href="/">главную страницу</a> 
-        и попробуйте снова позже.</p>
+        <p>На сервере произошла ошибка. Мы работаем над её исправлением.</p>
+        <p>Пожалуйста, вернитесь на <a href="/">главную страницу</a> и попробуйте снова позже.</p>
     </body>
 </html>
 ''', 500
@@ -460,13 +505,18 @@ def internal_server_error(e):
 def cause_error():
     return 1 / 0  # Ошибка деления на ноль
 
-@app.route('/lab2', strict_slashes=False)  # Теперь будет работать и без слэша, и со слэшем
+# Маршрут для лабораторной работы 2 с фавиконкой
+@app.route('/lab2', strict_slashes=False)
 def lab2():
-    return '''
+    css_path = url_for('static', filename='style.css')
+    favicon_path = url_for('static', filename='favicon.ico')
+    return f'''
 <!doctype html>
 <html>
     <head>
         <title>Лабораторная 2 - Ссылки</title>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
         <h1>Список доступных адресов для лабораторной 2:</h1>
@@ -485,6 +535,7 @@ def lab2():
 </html>
 '''
 
+# Маршруты для добавления и вывода цветов
 @app.route('/lab2/a')
 def a():
     return 'без слэша'
@@ -499,7 +550,7 @@ flower_list = ['rose', 'tulip', 'violet', 'daisy']
 @app.route('/lab2/add_flower/', defaults={'name': None})
 @app.route('/lab2/add_flower/<string:name>')
 def add_flower(name):
-    global flower_list 
+    favicon_path = url_for('static', filename='favicon.ico')
     if not name:
         return "Вы не задали имя цветка", 400
 
@@ -507,6 +558,9 @@ def add_flower(name):
 
     return f"""
         <html>
+        <head>
+            <link rel="icon" href="{favicon_path}" type="image/x-icon">
+        </head>
         <body>
             <h1>Цветок {name} был успешно добавлен!</h1>
             <p>Теперь в списке {len(flower_list)} цветов.</p>
@@ -523,10 +577,13 @@ def add_flower(name):
 # Маршрут для вывода всех цветов
 @app.route('/lab2/flowers')
 def show_flowers():
-    global flower_list 
+    favicon_path = url_for('static', filename='favicon.ico')
     if not flower_list:
-        return """
+        return f"""
             <html>
+            <head>
+                <link rel="icon" href="{favicon_path}" type="image/x-icon">
+            </head>
             <body>
                 <h1>Список цветов пуст.</h1>
                 <br>
@@ -542,6 +599,9 @@ def show_flowers():
     
     return f"""
         <html>
+        <head>
+            <link rel="icon" href="{favicon_path}" type="image/x-icon">
+        </head>
         <body>
             <h1>Всего цветов: {len(flower_list)}</h1>
             <h2>Список всех цветов:</h2>
@@ -555,11 +615,14 @@ def show_flowers():
 # Маршрут для очистки списка цветов
 @app.route('/lab2/clear_flowers')
 def clear_flowers():
-    global flower_list 
+    favicon_path = url_for('static', filename='favicon.ico')
     flower_list.clear()
 
-    return """
+    return f"""
         <html>
+        <head>
+            <link rel="icon" href="{favicon_path}" type="image/x-icon">
+        </head>
         <body>
             <h1>Список цветов был успешно очищен!</h1>
             <br>
@@ -568,6 +631,7 @@ def clear_flowers():
         </html>
     """
 
+# Маршрут для примера
 @app.route('/lab2/example')
 def example():
     name = 'Видергольд Ирина'
@@ -586,14 +650,16 @@ def example():
                            name=name, lab_num1=lab_num1, lab_num2=lab_num2, 
                            group=group, number=number, fruits=fruits)
 
+# Фильтр с фавиконкой
 @app.route('/lab2/filter')
 def filter():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('filter.html', phrase = phrase)
+    return render_template('filter.html', phrase=phrase)
 
 # Основной маршрут для вычислений с двумя числами
 @app.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
+    favicon_path = url_for('static', filename='favicon.ico')
     result_add = a + b
     result_sub = a - b
     result_mul = a * b
@@ -602,6 +668,9 @@ def calc(a, b):
 
     return f"""
     <html>
+    <head>
+        <link rel="icon" href="{favicon_path}" type="image/x-icon">
+    </head>
     <body>
         <h2>Расчёт с параметрами:</h2>
         <p>{a} + {b} = {result_add}</p>
@@ -623,7 +692,6 @@ def default_calc():
 def calc_with_one(a):
     return redirect(url_for('calc', a=a, b=1))
 
-
 # Список книг на стороне сервера
 books = [
     {"author": "Джордж Оруэлл", "title": "1984", "genre": "Антиутопия", "pages": 328},
@@ -641,7 +709,8 @@ books = [
 # Маршрут для вывода списка книг с использованием шаблона
 @app.route('/lab2/books')
 def show_books():
-    return render_template('books.html', books=books)
+    favicon_path = url_for('static', filename='favicon.ico')
+    return render_template('books.html', books=books, favicon_path=favicon_path)
 
 # Список ягод с информацией: название, описание, имя файла картинки
 berries = [
@@ -654,5 +723,5 @@ berries = [
 
 @app.route('/lab2/berries')
 def show_berries():
-    return render_template('berries.html', berries=berries)
-
+    favicon_path = url_for('static', filename='favicon.ico')
+    return render_template('berries.html', berries=berries, favicon_path=favicon_path)

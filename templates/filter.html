@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 
-{# номер лабораторной работы: #}
-{% block lab %}Лабораторная работа 2{% endblock %}
+{% block title %}
+    Лабораторная работа 2 - Фильтры
+{% endblock %}
 
-{# основной контент: #}
 {% block main %}
-    <div>Фраза: {{ phrase }}</div>
-    <div>Фраза: {{ phrase | title }}</div>
-    <div>Фраза: {{ phrase | striptags }}</div>
-    <div>Фраза: {{ phrase | safe }}</div>
-    <div>Фраза: {{ phrase | striptags | replace('сколько', 'много')
-         | replace('нам', 'тут') | upper }}</div>
-    <div>Фраза: {{ phrase | striptags | reverse }}</div>
+    <div class="content">
+        <div>Фраза: {{ phrase }}</div>
+        <div>Фраза: {{ phrase | title }}</div>
+        <div>Фраза: {{ phrase | striptags }}</div>
+        <div>Фраза: {{ phrase | safe }}</div>
+        <div>Фраза: {{ phrase | striptags | replace('сколько', 'много') | replace('нам', 'тут') | upper }}</div>
+        <div>Фраза: {{ phrase | striptags | reverse }}</div>
+    </div>
 {% endblock %}
