@@ -1,4 +1,4 @@
-from flask import Flask, url_for, redirect, render_template
+from flask import Flask, url_for, redirect, render_template, request, abort
 
 app = Flask(__name__)
 
@@ -8,8 +8,11 @@ resource_created = False
 @app.route("/")
 @app.route("/index")
 def index():
-    css_path = url_for('static', filename='style.css')
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
+    # Генерируем ссылки на все задания лабораторной 1
+    lab1_url = url_for('lab1')
+    
     return f'''
 <!doctype html>
 <html>
@@ -19,21 +22,21 @@ def index():
         <link rel="icon" href="{favicon_path}" type="image/x-icon">
     </head>
     <body>
-        <div class="container">
+        <div>
             <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
             <nav>
                 <ul>
-                    <li><a href="/lab1/resource">Управление ресурсом</a></li>
+                    <li><a href="{lab1_url}">Лабораторная 1</a></li>
                     <li><a href="/lab2">Лабораторная 2</a></li>
                 </ul>
             </nav>
-            <footer>
-                <p>ФИО: Видергольд Ирина Сергеевна</p>
-                <p>Группа: ФБИ-22</p>
-                <p>Курс: 3</p>
-                <p>Год: 2024</p>
-            </footer>
         </div>
+        <footer class="footer-home">
+            <p>ФИО: Видергольд Ирина Сергеевна</p>
+            <p>Группа: ФБИ-22</p>
+            <p>Курс: 3</p>
+            <p>Год: 2024</p>
+        </footer>
     </body>
 </html>
 '''
@@ -41,7 +44,7 @@ def index():
 @app.route("/lab1/resource")
 def resource_page():
     global resource_created
-    css_path = url_for('static', filename='style.css')
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
     
     if resource_created:
@@ -79,7 +82,7 @@ def resource_page():
 @app.route("/lab1/created")
 def create_resource():
     global resource_created
-    css_path = url_for('static', filename='style.css')
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
 
     if not resource_created:
@@ -119,7 +122,7 @@ def create_resource():
 @app.route("/lab1/delete")
 def delete_resource():
     global resource_created
-    css_path = url_for('static', filename='style.css')
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
 
     if resource_created:
@@ -158,7 +161,7 @@ def delete_resource():
 
 @app.route("/lab1")
 def lab1():
-    css_path = url_for('static', filename='style.css')
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
 
     # Генерируем ссылки на все маршруты
@@ -239,7 +242,7 @@ def author():
 @app.route("/lab1/oak")
 def oak():
     path = url_for("static", filename="oak.jpg")
-    css_path = url_for("static", filename="lab1.css")
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
     return f'''
 <!doctype html>
@@ -312,14 +315,6 @@ def custom_page():
     </body>
 </html>
 """
-
-    # Возвращаем HTML-контент с заголовками
-    return content, 200, {
-        'Content-Language': 'ru',  # Указываем язык содержимого страницы (русский)
-        'X-Powered-By': 'Flask',  # Дополнительный заголовок
-        'X-Custom-Header': 'My Custom Header',  # Ещё один заголовок
-        'Content-Type': 'text/html; charset=utf-8'  # Указываем тип контента и кодировку
-    }
 
 # Обработчик для ошибки 400
 @app.route("/400")
@@ -508,7 +503,7 @@ def cause_error():
 # Маршрут для лабораторной работы 2 с фавиконкой
 @app.route('/lab2', strict_slashes=False)
 def lab2():
-    css_path = url_for('static', filename='style.css')
+    css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
     return f'''
 <!doctype html>
@@ -524,12 +519,11 @@ def lab2():
             <li><a href="/lab2/calc/1/1">Калькулятор (1+1)</a></li>
             <li><a href="/lab2/calc/3">Калькулятор (3+1)</a></li>
             <li><a href="/lab2/calc">Калькулятор (по умолчанию 1+1)</a></li>
-            <li><a href="/lab2/flowers">Список всех цветов</a></li>
-            <li><a href="/lab2/clear_flowers">Очистить список цветов</a></li>
             <li><a href="/lab2/filter">Фильтры</a></li>
             <li><a href="/lab2/example">Пример</a></li>
             <li><a href="/lab2/berries">Ягоды</a></li>
             <li><a href="/lab2/books">Книги</a></li>
+            <li><a href="/lab2/flowers">Список цветов</a></li>
         </ul>
     </body>
 </html>
@@ -544,92 +538,50 @@ def a():
 def a2():
     return 'со слэшем'
 
-flower_list = ['rose', 'tulip', 'violet', 'daisy']
+flower_list = [
+    {"name": "Роза", "price": 300},
+    {"name": "Тюльпан", "price": 310},
+    {"name": "Ромашка", "price": 320},
+    {"name": "Подсолнух", "price": 330},
+    {"name": "Лилия", "price": 340}
+]
 
-# Маршрут для добавления цветка
-@app.route('/lab2/add_flower/', defaults={'name': None})
-@app.route('/lab2/add_flower/<string:name>')
-def add_flower(name):
-    favicon_path = url_for('static', filename='favicon.ico')
-    if not name:
-        return "Вы не задали имя цветка", 400
+@app.route('/lab2/add_flower', methods=['GET'])
+def add_flower():
+    name = request.args.get('name')
+    price = request.args.get('price')
 
-    flower_list.append(name)  # Добавляем цветок в список
+    if not name or not price:
+        return "Неверные данные: необходимо указать название цветка и его цену", 400
 
-    return f"""
-        <html>
-        <head>
-            <link rel="icon" href="{favicon_path}" type="image/x-icon">
-        </head>
-        <body>
-            <h1>Цветок {name} был успешно добавлен!</h1>
-            <p>Теперь в списке {len(flower_list)} цветов.</p>
-            <h2>Список всех цветов:</h2>
-            <ul>
-                {''.join(f"<li>{flower}</li>" for flower in flower_list)}
-            </ul>
-            <br>
-            <a href='/lab2/flowers'>Посмотреть все цветы</a>
-        </body>
-        </html>
-    """
+    # Добавляем новый цветок в список
+    flower_list.append({"name": name, "price": int(price)})
 
-# Маршрут для вывода всех цветов
+    # Перенаправляем на страницу с цветами
+    return redirect(url_for('show_flowers'))
+
 @app.route('/lab2/flowers')
 def show_flowers():
-    favicon_path = url_for('static', filename='favicon.ico')
-    if not flower_list:
-        return f"""
-            <html>
-            <head>
-                <link rel="icon" href="{favicon_path}" type="image/x-icon">
-            </head>
-            <body>
-                <h1>Список цветов пуст.</h1>
-                <br>
-                <a href='/lab2/add_flower/'>Добавить первый цветок</a>
-            </body>
-            </html>
-        """
-    
-    flowers_html = "<ul>"
-    for flower in flower_list:
-        flowers_html += f"<li>{flower}</li>"
-    flowers_html += "</ul>"
-    
-    return f"""
-        <html>
-        <head>
-            <link rel="icon" href="{favicon_path}" type="image/x-icon">
-        </head>
-        <body>
-            <h1>Всего цветов: {len(flower_list)}</h1>
-            <h2>Список всех цветов:</h2>
-            {flowers_html}
-            <br>
-            <a href='/lab2/clear_flowers'>Очистить список цветов</a>
-        </body>
-        </html>
-    """
+    lab_num = 2  # Номер лабораторной работы
+    return render_template('flowers.html', flower_list=flower_list, lab_num=lab_num)
 
-# Маршрут для очистки списка цветов
+@app.route('/lab2/del_flower/<int:flower_id>')
+def delete_flower(flower_id):
+    if 0 <= flower_id < len(flower_list):
+        del flower_list[flower_id]
+    else:
+        return "Такого цветка нет", 404
+
+    # После удаления цветка возвращаемся на страницу со списком цветов
+    return redirect(url_for('show_flowers'))
+
 @app.route('/lab2/clear_flowers')
 def clear_flowers():
-    favicon_path = url_for('static', filename='favicon.ico')
+    global flower_list
     flower_list.clear()
 
-    return f"""
-        <html>
-        <head>
-            <link rel="icon" href="{favicon_path}" type="image/x-icon">
-        </head>
-        <body>
-            <h1>Список цветов был успешно очищен!</h1>
-            <br>
-            <a href='/lab2/flowers'>Посмотреть все цветы</a>
-        </body>
-        </html>
-    """
+    # Возвращаемся на страницу со списком цветов после очистки
+    return redirect(url_for('show_flowers'))
 
 # Маршрут для примера
 @app.route('/lab2/example')
