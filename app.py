@@ -1,22 +1,12 @@
-from flask import Flask, url_for
-from lab1 import lab1
-from lab2 import lab2 
-
-app = Flask(__name__)
-app.register_blueprint(lab1, url_prefix='/lab1')
-app.register_blueprint(lab2, url_prefix='/lab2')
-
-# Глобальная переменная для отслеживания состояния ресурса
-resource_created = False
-
 @app.route("/")
 @app.route("/index")
 def index():
     css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
-    # Генерируем ссылки на все задания лабораторной 1
     lab1_url = url_for('lab1.lab')
-    
+    lab2_url = url_for('lab2.lab_2')
+    lab3_url = url_for('lab3.lab')  # Добавляем ссылку на lab3
+
     return f'''
 <!doctype html>
 <html>
@@ -31,7 +21,8 @@ def index():
             <nav>
                 <ul>
                     <li><a href="{lab1_url}">Лабораторная 1</a></li>
-                    <li><a href="/lab2">Лабораторная 2</a></li>
+                    <li><a href="{lab2_url}">Лабораторная 2</a></li>
+                    <li><a href="{lab3_url}">Лабораторная 3</a></li> <!-- Добавлена ссылка на lab3 -->
                 </ul>
             </nav>
         </div>
