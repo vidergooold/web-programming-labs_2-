@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Пользователь</h1>
+
+    <form>
+        <label>Ваше имя: </label>
+    </form>
+    <div>
+        Привет, <span style="color: {{name_color}}">{{ name }}</span>!
+    </div>
+    <div>Список сделанных страниц: </div>
+    <ol>
+        <li><a href="/lab3/cookie">Куки</a></li>
+        <li><a href="/lab3/del_cookie">Очистка куки</a></li>
+    </ol>
+{% endblock %}
