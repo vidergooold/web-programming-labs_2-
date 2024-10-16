@@ -208,7 +208,7 @@ def example():
     group = 'ФБИ-22'
     number = '3'
     fruits = [
-        {'name': 'apples', 'price': 100},
+        {'name': 'lab2les', 'price': 100},
         {'name': 'pears', 'price': 150}, 
         {'name': 'oranges', 'price': 90}, 
         {'name': 'mangos', 'price': 120}, 
@@ -292,4 +292,4 @@ berries = [
 @lab2.route('/berries')
 def show_berries():
     favicon_path = url_for('static', filename='favicon.ico')
-    return render_template('lab2/berries.html', berries=berries, favicon_path=favicon_path)
+    return render_template('berries.html', berries=berries, favicon_path=favicon_path)

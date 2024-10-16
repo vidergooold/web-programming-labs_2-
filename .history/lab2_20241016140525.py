@@ -208,7 +208,7 @@ def example():
     group = 'ФБИ-22'
     number = '3'
     fruits = [
-        {'name': 'apples', 'price': 100},
+        {'name': 'lab2les', 'price': 100},
         {'name': 'pears', 'price': 150}, 
         {'name': 'oranges', 'price': 90}, 
         {'name': 'mangos', 'price': 120}, 

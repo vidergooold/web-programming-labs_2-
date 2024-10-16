@@ -179,7 +179,7 @@ def add_flower():
 @lab2.route('/flowers')
 def show_flowers():
     lab_num = 2  # Номер лабораторной работы
-    return render_template('lab2/flowers.html', flower_list=flower_list, lab_num=lab_num)
+    return render_template('laflowers.html', flower_list=flower_list, lab_num=lab_num)
 
 @lab2.route('/del_flower/<int:flower_id>')
 def delete_flower(flower_id):
@@ -208,13 +208,13 @@ def example():
     group = 'ФБИ-22'
     number = '3'
     fruits = [
-        {'name': 'apples', 'price': 100},
+        {'name': 'lab2les', 'price': 100},
         {'name': 'pears', 'price': 150}, 
         {'name': 'oranges', 'price': 90}, 
         {'name': 'mangos', 'price': 120}, 
         {'name': 'cherries', 'price': 200}
     ]
-    return render_template('lab2/example.html', 
+    return render_template('example.html', 
                            name=name, lab_num1=lab_num1, lab_num2=lab_num2, 
                            group=group, number=number, fruits=fruits)
 
@@ -222,7 +222,7 @@ def example():
 @lab2.route('/filter')
 def filter():
     phrase = "0 <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('lab2/filter.html', phrase=phrase)
+    return render_template('filter.html', phrase=phrase)
 
 # Основной маршрут для вычислений с двумя числами
 @lab2.route('/calc/<int:a>/<int:b>')
@@ -278,7 +278,7 @@ books = [
 @lab2.route('/books')
 def show_books():
     favicon_path = url_for('static', filename='favicon.ico')
-    return render_template('lab2/books.html', books=books, favicon_path=favicon_path)
+    return render_template('books.html', books=books, favicon_path=favicon_path)
 
 # Список ягод с информацией: название, описание, имя файла картинки
 berries = [
@@ -292,4 +292,4 @@ berries = [
 @lab2.route('/berries')
 def show_berries():
     favicon_path = url_for('static', filename='favicon.ico')
-    return render_template('lab2/berries.html', berries=berries, favicon_path=favicon_path)
+    return render_template('berries.html', berries=berries, favicon_path=favicon_path)

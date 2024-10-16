@@ -201,7 +201,7 @@ def author():
 
 @lab1.route("/oak")
 def oak():
-    path = url_for("static", filename="lab1/oak.jpg")
+    path = url_for("static", filename="oak.jpg")
     css_path = url_for('static', filename='main.css')
     favicon_path = url_for('static', filename='favicon.ico')
     return f'''
