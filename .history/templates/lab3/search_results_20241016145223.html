@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Результаты поиска</h1>
+    {% if products %}
+        <ul>
+            {% for product in products %}
+                <li>
+                    <strong>Название:</strong> {{ product.name }}<br>
+                    <strong>Цена:</strong> {{ product.price }} руб.<br>
+                    <strong>Бренд:</strong> {{ product.brand }}<br>
+                    <strong>Цвет:</strong> {{ product.color }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет товаров в заданном диапазоне цен.</p>
+    {% endif %}
+    <a href="/lab3/search_form">Вернуться к поиску</a>
+{% endblock %}

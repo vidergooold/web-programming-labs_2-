@@ -146,37 +146,3 @@ def ticket_form():
 
     return render_template('lab3/ticket_form.html')
 
-products = [
-    {"name": "Смартфон Apple iPhone 13", "price": 79990, "brand": "Apple", "color": "синий"},
-    {"name": "Смартфон Samsung Galaxy S21", "price": 64990, "brand": "Samsung", "color": "черный"},
-    {"name": "Смартфон Xiaomi Mi 11", "price": 49990, "brand": "Xiaomi", "color": "белый"},
-    {"name": "Смартфон Huawei P40 Pro", "price": 59990, "brand": "Huawei", "color": "серебристый"},
-    {"name": "Смартфон OnePlus 9 Pro", "price": 69990, "brand": "OnePlus", "color": "зеленый"},
-    {"name": "Смартфон Google Pixel 6", "price": 54990, "brand": "Google", "color": "серый"},
-    {"name": "Смартфон Sony Xperia 1 III", "price": 89990, "brand": "Sony", "color": "черный"},
-    {"name": "Смартфон Motorola Edge 20", "price": 39990, "brand": "Motorola", "color": "синий"},
-    {"name": "Смартфон Oppo Reno 6", "price": 44990, "brand": "Oppo", "color": "золотой"},
-    {"name": "Смартфон Vivo X60", "price": 47990, "brand": "Vivo", "color": "черный"},
-    {"name": "Смартфон Realme GT", "price": 34990, "brand": "Realme", "color": "желтый"},
-    {"name": "Смартфон Nokia 8.3", "price": 32990, "brand": "Nokia", "color": "синий"},
-    {"name": "Смартфон LG Velvet", "price": 29990, "brand": "LG", "color": "белый"},
-    {"name": "Смартфон Asus ROG Phone 5", "price": 59990, "brand": "Asus", "color": "черный"},
-    {"name": "Смартфон ZTE Axon 30", "price": 37990, "brand": "ZTE", "color": "синий"},
-    {"name": "Смартфон Lenovo Legion Duel 2", "price": 54990, "brand": "Lenovo", "color": "серый"},
-    {"name": "Смартфон TCL 20 Pro 5G", "price": 42990, "brand": "TCL", "color": "синий"},
-    {"name": "Смартфон Alcatel 3X", "price": 14990, "brand": "Alcatel", "color": "черный"},
-    {"name": "Смартфон Honor 50", "price": 39990, "brand": "Honor", "color": "синий"},
-    {"name": "Смартфон Tecno Camon 17", "price": 12990, "brand": "Tecno", "color": "синий"},
-]
-
-@lab3.route('/lab3/search_form', methods=['GET', 'POST'])
-def search_form():
-    if request.method == 'POST':
-        min_price = float(request.form.get('min_price'))
-        max_price = float(request.form.get('max_price'))
-
-        filtered_products = [product for product in products if min_price <= product['price'] <= max_price]
-
-        return render_template('lab3/search_results.html', products=filtered_products)
-
-    return render_template('lab3/search_form.html')

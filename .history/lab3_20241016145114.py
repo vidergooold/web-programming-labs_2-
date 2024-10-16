@@ -168,15 +168,3 @@ products = [
     {"name": "Смартфон Honor 50", "price": 39990, "brand": "Honor", "color": "синий"},
     {"name": "Смартфон Tecno Camon 17", "price": 12990, "brand": "Tecno", "color": "синий"},
 ]
-
-@lab3.route('/lab3/search_form', methods=['GET', 'POST'])
-def search_form():
-    if request.method == 'POST':
-        min_price = float(request.form.get('min_price'))
-        max_price = float(request.form.get('max_price'))
-
-        filtered_products = [product for product in products if min_price <= product['price'] <= max_price]
-
-        return render_template('lab3/search_results.html', products=filtered_products)
-
-    return render_template('lab3/search_form.html')
