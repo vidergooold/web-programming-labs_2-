@@ -6,14 +6,13 @@ lab3 = Blueprint('lab3', __name__)
 def lab():
     name = request.cookies.get('name')
     name_color = request.cookies.get('name_color')
-    age = request.cookies.get('age')  # Добавляем получение возраста
-    return render_template('lab3/lab3.html', name=name, name_color=name_color, age=age)
+    return render_template('lab3/lab3.html', name=name, name_color=name_color)
 
 @lab3.route('/cookie')
 def cookie():
     resp = make_response(redirect('/lab3/lab3'))
     resp.set_cookie('name', 'Alex', max_age=5) 
-    resp.set_cookie('age', '20')  # Устанавливаем возраст
+    resp.set_cookie('age', '20')
     resp.set_cookie('name_color', 'magenta')
     return resp
 
@@ -21,7 +20,7 @@ def cookie():
 def del_cookie():
     resp = make_response(redirect('/lab3/lab3'))
     resp.delete_cookie('name') 
-    resp.delete_cookie('age')  # Удаляем возраст
+    resp.delete_cookie('age')
     resp.delete_cookie('name_color')
     return resp
 
@@ -99,3 +98,4 @@ def settings():
 
     # Рендерим страницу с текущими настройками из куки
     return make_response(render_template('/lab3/settings.html', color=color, background_color=background_color, font_size=font_size, font_style=font_style))
+

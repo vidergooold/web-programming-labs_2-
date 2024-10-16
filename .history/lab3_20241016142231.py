@@ -2,18 +2,47 @@ from flask import Blueprint, make_response, redirect, render_template, request
 
 lab3 = Blueprint('lab3', __name__)
 
-@lab3.route('/lab3/')
-def lab():
+from flask import Flask, render_template, request, make_response
+
+app = Flask(__name__)
+
+@app.route('/lab3/', methods=['GET', 'POST'])
+def lab3():
+    # Получение данных из формы или cookies
     name = request.cookies.get('name')
-    name_color = request.cookies.get('name_color')
-    age = request.cookies.get('age')  # Добавляем получение возраста
-    return render_template('lab3/lab3.html', name=name, name_color=name_color, age=age)
+    age = request.cookies.get('age')
+
+    # Если имя или возраст не заданы, подставляем значения по умолчанию
+    if not name:
+        name = "аноним"  # Используем "аноним" вместо None
+    if not age:
+        age = "неизвестен"  # Используем "неизвестен" для возраста
+
+    name_color = request.cookies.get('name_color', 'black')  # Цвет имени по умолчанию
+
+    return render_template('lab3/lab3.html', name=name, age=age, name_color=name_color)
+
+@app.route('/lab3/settings', methods=['POST'])
+def save_settings():
+    # Получение данных из формы
+    name = request.form.get('name', 'аноним')
+    age = request.form.get('age', 'неизвестен')
+    name_color = request.form.get('name_color', 'black')
+
+    # Создание ответа с установкой cookies
+    resp = make_response(render_template('lab3.html', name=name, age=age, name_color=name_color))
+    resp.set_cookie('name', name)
+    resp.set_cookie('age', age)
+    resp.set_cookie('name_color', name_color)
+
+    return resp
+
 
 @lab3.route('/cookie')
 def cookie():
     resp = make_response(redirect('/lab3/lab3'))
     resp.set_cookie('name', 'Alex', max_age=5) 
-    resp.set_cookie('age', '20')  # Устанавливаем возраст
+    resp.set_cookie('age', '20')
     resp.set_cookie('name_color', 'magenta')
     return resp
 
@@ -21,7 +50,7 @@ def cookie():
 def del_cookie():
     resp = make_response(redirect('/lab3/lab3'))
     resp.delete_cookie('name') 
-    resp.delete_cookie('age')  # Удаляем возраст
+    resp.delete_cookie('age')
     resp.delete_cookie('name_color')
     return resp
 
@@ -99,3 +128,4 @@ def settings():
 
     # Рендерим страницу с текущими настройками из куки
     return make_response(render_template('/lab3/settings.html', color=color, background_color=background_color, font_size=font_size, font_style=font_style))
+

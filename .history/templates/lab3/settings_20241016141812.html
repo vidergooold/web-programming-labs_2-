@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Cookies</h1>
+    <form method="post">
+        <div>
+            <label class="label" for="name">Введите ваше имя:</label>
+            <input type="text" id="name" name="name" value="{{ name or '' }}">
+        </div>
+        <div>
+            <label class="label" for="age">Введите ваш возраст:</label>
+            <input type="number" id="age" name="age" value="{{ age or '' }}">
+        </div>
+        <div>
+            <label class="label" for="color">Выберите цвет текста:</label>
+            <input type="color" id="color" name="color" value="{{ color or '' }}">
+        </div>
+        <div>
+            <label class="label" for="background_color">Выберите цвет фона:</label>
+            <input type="color" id="background_color" name="background_color" value="{{ background_color or '' }}">
+        </div>
+        <div>
+            <label class="label" for="font_size">Выберите размер шрифта:</label>
+            <input type="number" id="font_size" name="font_size" value="{{ font_size or '' }}">
+        </div>
+        <div>
+            <label class="label" for="font_style">Выберите стиль шрифта:</label>
+            <select id="font_style" name="font_style">
+                <option value="">Выберите стиль</option>
+                <option value="normal" {% if font_style == 'normal' %}selected{% endif %}>Нормальный</option>
+                <option value="italic" {% if font_style == 'italic' %}selected{% endif %}>Курсив</option>
+                <option value="bold" {% if font_style == 'bold' %}selected{% endif %}>Жирный</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">OK</button>
+        </div>
+    </form>    
+{% endblock %}
