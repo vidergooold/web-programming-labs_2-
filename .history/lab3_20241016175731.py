@@ -70,7 +70,7 @@ def success():
     price = request.args.get('price')
     return render_template('lab3/success.html', price=price)
 
-@lab3.route('/lab3/settings', methods=['GET', 'POST'])
+@lab3.route('/lab3/settings', methods=['GET''])
 def settings():
     if request.method == 'POST':
         # Получаем выбранные настройки из формы
@@ -189,4 +189,3 @@ def clear_cookies():
     resp.delete_cookie('font_size')
     resp.delete_cookie('font_style')
     return resp
-

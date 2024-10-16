@@ -52,7 +52,7 @@ def index():
 # Обработчик для ошибки 404
 @app.errorhandler(404)
 def page_not_found(e):
-    image_path = url_for('static', filename='/lab1/delulu.jpg')
+    image_path = url_for('static', filename='delulu.jpg')
     favicon_path = url_for('static', filename='favicon.ico')
     return f'''
 <!doctype html>

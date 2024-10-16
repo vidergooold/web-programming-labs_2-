@@ -72,7 +72,7 @@ def success():
 
 @lab3.route('/lab3/settings', methods=['GET', 'POST'])
 def settings():
-    if request.method == 'POST':
+    if request.method == '':
         # Получаем выбранные настройки из формы
         color = request.form.get('color')
         background_color = request.form.get('background_color')
@@ -189,4 +189,3 @@ def clear_cookies():
     resp.delete_cookie('font_size')
     resp.delete_cookie('font_style')
     return resp
-

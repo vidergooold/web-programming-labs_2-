@@ -91,11 +91,11 @@ def settings():
             resp.set_cookie('font_style', font_style)
         return resp
 
-    # Получаем настройки из куки, если они есть
-    color = request.cookies.get('color')
-    background_color = request.cookies.get('background_color')
-    font_size = request.cookies.get('font_size')
-    font_style = request.cookies.get('font_style')
+    # # Получаем настройки из куки, если они есть
+    # color = request.cookies.get('color')
+    # background_color = request.cookies.get('background_color')
+    # font_size = request.cookies.get('font_size')
+    # font_style = request.cookies.get('font_style')
 
     # Рендерим страницу с текущими настройками из куки
     return make_response(render_template('lab3/settings.html', color=color, background_color=background_color, font_size=font_size, font_style=font_style))
@@ -189,4 +189,3 @@ def clear_cookies():
     resp.delete_cookie('font_size')
     resp.delete_cookie('font_style')
     return resp
-

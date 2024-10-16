@@ -4,7 +4,7 @@
 
 {% block main %}
     <h1>Cookies</h1>
-    <form action="/lab3/lab3/settings"  method="post">
+    <form action="/lab3/settings"  method="get">
         <div>
             <label class="label" for="color">Выберите цвет текста:</label>
             <input type="color" id="color" name="color" value="{{ color or '' }}">

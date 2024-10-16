@@ -80,7 +80,7 @@ def settings():
         font_style = request.form.get('font_style')
 
         # Устанавливаем куки с настройками и перенаправляем на эту же страницу
-        resp = make_response(redirect('/lab3/settings.html'))
+        resp = make_response(redirect('/lab3/settings'))
         if color:
             resp.set_cookie('color', color)
         if background_color:
