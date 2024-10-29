@@ -94,13 +94,13 @@ def tree():
         return render_template('lab4/tree.html', tree_count=tree_count)
 
     operation = request.form.get('operation')
-
+    
     if operation == 'cut' and tree_count > 0:
         tree_count -= 1
     elif operation == 'plant' and tree_count < 10:
         tree_count += 1
 
-    return redirect('/lab4/lab4/tree')
+    return redirect('/lab4/tree')
 
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
@@ -110,19 +110,10 @@ def login():
     login = request.form.get('login')
     password = request.form.get('password')
 
-    # Проходим по списку пользователей и проверяем совпадение логина и пароля
-    for user in users:
-        if login == user['login'] and password == user['password']:
-            return render_template('lab4/login.html', login=login, authorized=True)
-
-    # Если совпадений не найдено, показываем ошибку
+    if login == 'alex' and password == '123':
+        return render_template('lab4/login.html', login=login, authorized=True)
+    
     error = 'Неверные логин и/или пароль'
     return render_template('lab4/login.html', error=error, authorized=False)
 
-users = [
-    {'login': 'alex', 'password': '123'},
-    {'login': 'bob', 'password': '555'},
-    {'login': 'alice', 'password': 'qwerty'},
-    {'login': 'charlie', 'password': 'zxcvbn'}
-]
 

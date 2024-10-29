@@ -9,5 +9,6 @@
     <form method="post">
         <button name="operation" value="plant" {% if tree_count >= 10 %}disabled{% endif %}>Посадить дерево</button>
         <button name="operation" value="cut" {% if tree_count <= 0 %}disabled{% endif %}>Срубить дерево</button>
-    </form>    
+    </form>
+    
 {% endblock %}
