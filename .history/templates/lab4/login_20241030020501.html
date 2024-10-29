@@ -6,7 +6,7 @@
     {% if authorized %}
         <h1>Добро пожаловать, {{ login }}!</h1>
         <div>
-            <form action="/lab4/lab4/logout" method="post">
+            <form action="{{ url_for('lab4.multiplication') }}/lab4/logout" method="post">
                 <button type="submit">Выход</button>
             </form>
         </div>

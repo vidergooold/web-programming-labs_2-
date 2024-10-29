@@ -131,5 +131,5 @@ def login():
 @lab4.route('/lab4/logout', methods=['POST'])
 def logout():
     session.pop('login', None)  # Удаляем логин из сессии
-    return redirect('/lab4/lab4/login')
+    return redirect('/lab4/login')
 
