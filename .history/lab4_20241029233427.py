@@ -85,6 +85,10 @@ def power():
     result = x1 ** x2
     return render_template('lab4/power.html', x1=x1, x2=x2, result=result)
 
+from flask import Blueprint, render_template, request
+
+lab4 = Blueprint('lab4', __name__)
+
 tree_count = 0
 
 @lab4.route('/lab4/tree', methods=['GET', 'POST'])
