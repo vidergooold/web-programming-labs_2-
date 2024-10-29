@@ -103,10 +103,10 @@ def tree():
     return redirect('/lab4/lab4/tree')
 
 users = [
-    {'login': 'alex', 'password': '123', 'name': 'Александр Иванов', 'gender': 'male'},
-    {'login': 'bob', 'password': '555', 'name': 'Боб Смит', 'gender': 'male'},
-    {'login': 'alice', 'password': 'qwerty', 'name': 'Алиса Петрова', 'gender': 'female'},
-    {'login': 'charlie', 'password': 'zxcvbn', 'name': 'Чарли Браун', 'gender': 'male'}
+    {'login': 'alex', 'password': '123'},
+    {'login': 'bob', 'password': '555'},
+    {'login': 'alice', 'password': 'qwerty'},
+    {'login': 'charlie', 'password': 'zxcvbn'}
 ]
 
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
@@ -133,7 +133,7 @@ def login():
     for user in users:
         if login == user['login'] and password == user['password']:
             session['login'] = login
-            return redirect('/lab4/lab4/login')
+            return redirect('/lab4/login')
 
     # Если логин и пароль не совпали
     error = 'Неверные логин и/или пароль'

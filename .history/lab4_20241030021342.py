@@ -109,6 +109,7 @@ users = [
     {'login': 'charlie', 'password': 'zxcvbn', 'name': 'Чарли Браун', 'gender': 'male'}
 ]
 
+
 @lab4.route('/lab4/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
