@@ -269,7 +269,7 @@ def users_list():
         if action == 'delete':
             users.remove(current_user)
             session.pop('login', None)
-            return redirect('/lab4/lab4/login')
+            return redirect('/lab4/login')
         elif action == 'edit':
             new_name = request.form.get('name')
             new_password = request.form.get('password')
@@ -281,5 +281,3 @@ def users_list():
             return render_template('lab4/users.html', users=users, success_message=success_message)
     
     return render_template('lab4/users.html', users=users)
-
-

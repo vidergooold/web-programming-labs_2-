@@ -281,5 +281,3 @@ def users_list():
             return render_template('lab4/users.html', users=users, success_message=success_message)
     
     return render_template('lab4/users.html', users=users)
-
-

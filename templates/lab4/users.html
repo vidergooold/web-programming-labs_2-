@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block lab %}Список пользователей{% endblock %}
+
+{% block main %}
+    <h1>Пользователи</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Логин</th>
+                <th>Пол</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.login }}</td>
+                    <td>{{ user.gender == 'male' and 'Мужской' or 'Женский' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Редактировать профиль</h2>
+    <form method="post">
+        <div>
+            <label for="name">Новое имя:</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="password">Новый пароль:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <button type="submit" name="action" value="edit">Сохранить изменения</button>
+    </form>
+
+    <form method="post">
+        <button type="submit" name="action" value="delete" style="color: red;">Удалить свой профиль</button>
+    </form>
+
+    {% if success_message %}
+        <div style="color: green;">{{ success_message }}</div>
+    {% endif %}
+{% endblock %}
