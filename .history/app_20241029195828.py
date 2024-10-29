@@ -20,7 +20,6 @@ def index():
     lab1_url = url_for('lab1.lab')
     lab2_url = url_for('lab2.lab_2')
     lab3_url = url_for('lab3.lab')
-    lab3_url = url_for('lab4.lab')
 
     return f'''
 <!doctype html>

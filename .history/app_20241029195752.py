@@ -7,7 +7,6 @@ app = Flask(__name__)
 app.register_blueprint(lab1, url_prefix='/lab1')
 app.register_blueprint(lab2, url_prefix='/lab2')
 app.register_blueprint(lab3, url_prefix='/lab3', name='lab3')
-app.register_blueprint(lab4, url_prefix='/lab4')
 
 # Глобальная переменная для отслеживания состояния ресурса
 resource_created = False
@@ -20,7 +19,6 @@ def index():
     lab1_url = url_for('lab1.lab')
     lab2_url = url_for('lab2.lab_2')
     lab3_url = url_for('lab3.lab')
-    lab3_url = url_for('lab4.lab')
 
     return f'''
 <!doctype html>
@@ -38,7 +36,7 @@ def index():
                     <li><a href="{lab1_url}">Лабораторная 1</a></li>
                     <li><a href="{lab2_url}">Лабораторная 2</a></li>
                     <li><a href="{lab3_url}">Лабораторная 3</a></li>
-                    <li><a href="{lab4_url}">Лабораторная 4</a></li>
+                    <li><a href="{lab3_url}">Лабораторная 3</a></li>
                 </ul>
             </nav>
         </div>
