@@ -53,34 +53,3 @@ def multiplication():
     result = x1 * x2
     return render_template('lab4/multiply.html', x1=x1, x2=x2, result=result)
 
-@lab4.route('/lab4/subtract-form')
-def subtract_form():
-    return render_template('lab4/subtract-form.html')
-
-@lab4.route('/lab4/subtract', methods=['POST'])
-def subtraction():
-    x1 = request.form.get('x1')
-    x2 = request.form.get('x2')
-    if x1 == '' or x2 == '':
-        return render_template('lab4/subtract.html', error='Оба поля должны быть заполнены!')
-
-    x1 = int(x1)
-    x2 = int(x2)
-    result = x1 - x2
-    return render_template('lab4/subtract.html', x1=x1, x2=x2, result=result)
-
-@lab4.route('/lab4/power-form')
-def power_form():
-    return render_template('lab4/power-form.html')
-
-@lab4.route('/lab4/power', methods=['POST'])
-def power():
-    x1 = request.form.get('x1')
-    x2 = request.form.get('x2')
-    if x1 == '' or x2 == '' or (int(x1) == 0 and int(x2) == 0):
-        return render_template('lab4/power.html', error='Поля не должны быть пустыми, и оба числа не должны быть равны нулю!')
-
-    x1 = int(x1)
-    x2 = int(x2)
-    result = x1 ** x2
-    return render_template('lab4/power.html', x1=x1, x2=x2, result=result)
