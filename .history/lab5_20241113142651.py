@@ -240,14 +240,4 @@ def users():
     db_close(conn, cur)
     return render_template('lab5/users.html', users=users)
 
-@lab5.route('/lab5/public_articles')
-def public_articles():
-    conn, cur = db_connect()
-
-    # Получение всех публичных статей
-    cur.execute("SELECT articles.title, articles.article_text, users.login FROM articles JOIN users ON articles.login_id = users.id WHERE articles.is_public = TRUE;")
-    articles = cur.fetchall()
-
-    db_close(conn, cur)
-    return render_template('lab5/public_articles.html', articles=articles)
 

@@ -149,11 +149,11 @@ def list():
         cur.execute("SELECT id FROM users WHERE login=?;", (login,))
     login_id = cur.fetchone()["id"]
 
-    # Получение статей пользователя с любимыми статьями первыми
+    # Получение статей пользователя
     if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("SELECT * FROM articles WHERE login_id=%s ORDER BY is_favorite DESC;", (login_id,))
+        cur.execute("SELECT * FROM articles WHERE login_id=%s;", (login_id,))
     else:
-        cur.execute("SELECT * FROM articles WHERE login_id=? ORDER BY is_favorite DESC;", (login_id,))
+        cur.execute("SELECT * FROM articles WHERE login_id=?;", (login_id,))
     articles = cur.fetchall()
 
     db_close(conn, cur)
@@ -239,15 +239,4 @@ def users():
 
     db_close(conn, cur)
     return render_template('lab5/users.html', users=users)
-
-@lab5.route('/lab5/public_articles')
-def public_articles():
-    conn, cur = db_connect()
-
-    # Получение всех публичных статей
-    cur.execute("SELECT articles.title, articles.article_text, users.login FROM articles JOIN users ON articles.login_id = users.id WHERE articles.is_public = TRUE;")
-    articles = cur.fetchall()
-
-    db_close(conn, cur)
-    return render_template('lab5/public_articles.html', articles=articles)
 
