@@ -13,18 +13,20 @@ def lab():
 
 def db_connect():
     conn = psycopg2.connect(
-        host='127.0.0.1',
-        database='kb',
-        user='irina_vidergold_knowledge_base',
-        password='123'
+        host = '127.0.0.1',
+            database = 'kb',
+            user = 'irina_vidergold_knowledge_base',
+            password = '123'
     )
-    cur = conn.cursor(cursor_factory=RealDictCursor)
+    cur = conn.cursor(cursor_factory = RealDictCursor)
+
     return conn, cur 
 
 def db_close(conn, cur):
     conn.commit()
     cur.close()
     conn.close()
+
 
 @lab5.route('/lab5/register', methods=['GET', 'POST'])
 def register():
@@ -41,19 +43,19 @@ def register():
 
     conn, cur = db_connect()
 
-    # Проверка существования пользователя
-    cur.execute("SELECT login FROM users WHERE login=%s;", (login,))
+    cur.execute(f"SELECT login FROM users WHERE login ='{login}';")
     if cur.fetchone():
         db_close(conn, cur)
-        return render_template('lab5/register.html', error="Такой пользователь уже существует")
+        return render_template('lab5/register.html', 
+                                error="Такой пользователь уже существует")
         
     # Если пользователя нет, добавляем нового пользователя
     password_hash = generate_password_hash(password) 
-    cur.execute("INSERT INTO users (login, password) VALUES (%s, %s);", (login, password_hash))
+    cur.execute("INSERT INTO users (login, password) VALUES ('{login}', '{password hash}');")
         
     db_close(conn, cur) 
     return render_template('lab5/success.html', login=login)
-
+    
 @lab5.route('/lab5/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -68,40 +70,49 @@ def login():
     # Подключение к базе данных
     conn, cur = db_connect()
 
-    # Поиск пользователя в базе данных
-    cur.execute("SELECT * FROM users WHERE login=%s;", (login,))
+    cur.execute("SELECT * FROM users WHERE login =;")
     user = cur.fetchone()
 
-    if not user or not check_password_hash(user['password'], password):
-        db_close(conn, cur)
-        return render_template('lab5/login.html', error="Логин и/или пароль неверны")
+    if cur.fetchone():
+        db_close(conn, cur) 
+        return render_template('lab5/login.html', 
+                                error="Логин и/или пароль неверны")
+    
+    if user['password'] != password:
+        db_close(conn, cur) 
+        return render_template('lab5/login.html',
+                               error='Логин и/или пароль неверны')
 
+    if not check_password_hash(user['password'], password):
+        db_close(conn, cur)
+        return render_template('lab5/login.html',
+                                error='Логин и/или пароль неверны')   
+    
     # Сохранение логина пользователя в сессии
     session['login'] = login 
-    db_close(conn, cur)
+    db_close(conn, cur) 
  
     return render_template('lab5/success_login.html', login=login)
 
-@lab5.route('/lab5/create', methods=['GET', 'POST'])
+@lab5.route('/lab5/create', methods = ['GET', 'POST'])
 def create():
-    login = session.get('login')
+    login=session.get('login')
     if not login:
-        return redirect('/lab5/login')
+        return redirect('/lab5/lab5/login')
     
     if request.method == 'GET':
         return render_template('lab5/create_article.html')
     
-    title = request.form.get('title')
+    title =request.form.get('title')
     article_text = request.form.get('article_text') 
 
     conn, cur = db_connect()
 
-    # Получение ID пользователя
-    cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
+    cur.execute("SELECT * FROM users WHERE login=%s;", (login,))
     login_id = cur.fetchone()["id"]
 
-    # Вставка статьи в базу данных
-    cur.execute("INSERT INTO articles (login_id, title, article_text) VALUES (%s, %s, %s);", (login_id, title, article_text))
+    cur.execute("INSERT INTO articles(login_id, title, article_text) \
+                VALUES (%s, %s, %s)", (login_id, title, article_text))
 
     db_close(conn, cur)
     return redirect('/lab5')
@@ -114,11 +125,9 @@ def list():
 
     conn, cur = db_connect()
 
-    # Получение ID пользователя
     cur.execute("SELECT id FROM users WHERE login=%s;", (login,))
     login_id = cur.fetchone()["id"]
 
-    # Получение статей пользователя
     cur.execute("SELECT * FROM articles WHERE login_id=%s;", (login_id,))
     articles = cur.fetchall()
 
