@@ -5,7 +5,7 @@
 {% block main %}
     <h1>Статьи</h1>
 
-{% if message %}
+    {% if message %}
     <p>{{ message }}</p>
 {% else %}
     {% for article in articles %}
@@ -16,4 +16,3 @@
     </form>
     {% endfor %}
 {% endblock %}
-

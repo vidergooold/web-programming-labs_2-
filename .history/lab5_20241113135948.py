@@ -208,20 +208,4 @@ def edit(article_id):
     db_close(conn, cur)
     return redirect('/lab5/list')
 
-@lab5.route('/lab5/delete/<int:article_id>', methods=['POST'])
-def delete(article_id):
-    login = session.get('login')
-    if not login:
-        return redirect('/lab5/login')
-
-    conn, cur = db_connect()
-
-    # Удаление статьи
-    if current_app.config['DB_TYPE'] == 'postgres':
-        cur.execute("DELETE FROM articles WHERE id=%s;", (article_id,))
-    else:
-        cur.execute("DELETE FROM articles WHERE id=?;", (article_id,))
-
-    db_close(conn, cur)
-    return redirect('/lab5/list')
 
