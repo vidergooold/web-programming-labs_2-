@@ -35,7 +35,6 @@ def index():
     lab3_url = url_for('lab3.lab')
     lab4_url = url_for('lab4.lab')
     lab5_url = url_for('lab5.lab')
-    lab6_url = url_for('lab6.lab')
 
     return f'''
 <!doctype html>
@@ -55,7 +54,7 @@ def index():
                     <li><a href="{lab3_url}">Лабораторная 3</a></li>
                     <li><a href="{lab4_url}">Лабораторная 4</a></li>
                     <li><a href="{lab5_url}">Лабораторная 5</a></li>
-                    <li><a href="{lab6_url}">Лабораторная 6</a></li>
+                    <li><a href="{lab5_url}">Лабораторная 5</a></li>
                 </ul>
             </nav>
         </div>
