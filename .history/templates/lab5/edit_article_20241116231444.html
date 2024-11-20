@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Редактировать статью</h1>
+    <form method="post" class="edit-article-form">
+        {{ csrf_token() }}
+        <div class="form-group">
+            <label for="title">Название статьи:</label>
+            <input type="text" id="title" name="title" value="{{ article['title'] }}" maxlength="50" required placeholder="Введите название статьи" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="article_text">Текст статьи:</label>
+            <textarea id="article_text" name="article_text" maxlength="1000" required placeholder="Введите текст статьи" class="form-control">{{ article['article_text']|e }}</textarea>
+        </div>
+        <div class="form-check">
+            <label>
+                <input type="checkbox" name="is_favorite" {% if article['is_favorite'] %}checked{% endif %} class="form-check-input">
+                Любимая статья
+            </label>
+        </div>
+        <div class="form-check">
+            <label>
+                <input type="checkbox" name="is_public" {% if article['is_public'] %}checked{% endif %} class="form-check-input">
+                Публичная статья
+            </label>
+        </div>
+        {% if error %}
+            <p class="error-message" style="color:red;">{{ error }}</p>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    <a href="{{ url_for('lab5.list_articles') }}" class="btn btn-secondary">Назад</a>
+{% endblock %}

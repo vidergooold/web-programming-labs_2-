@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1 style="color: green; text-align: center;">Регистрация успешна!</h1>
+    <p style="text-align: center;">Вы успешно зарегистрировались.</p>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('lab5.lab5_home') }}" class="btn btn-primary" style="margin: 0 10px;">На главную</a>
+        <a href="{{ url_for('lab5.login') }}" class="btn btn-secondary" style="margin: 0 10px;">Войти</a>
+    </div>
+{% endblock %}

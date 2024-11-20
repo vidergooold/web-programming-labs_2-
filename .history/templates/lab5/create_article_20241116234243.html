@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Создание статьи</h1>
+    <form method="post">
+        <div>
+            <label>Название статьи:</label>
+            <input type="text" name="title" maxlength="50" required>
+        </div>
+        <div>
+            <label>Содержание статьи:</label>
+            <textarea name="article_text" required></textarea>
+        </div>
+        <div>
+            <label><input type="checkbox" name="is_favorite"> Сделать статью любимой</label>
+        </div>
+        <div>
+            <label><input type="checkbox" name="is_public"> Сделать статью публичной</label>
+        </div>
+        <button type="submit">Готово</button>
+    </form>
+    
+{% endblock %}

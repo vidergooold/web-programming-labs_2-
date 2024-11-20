@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1 style="color: green; text-align: center;">Успешный вход</h1>
+    <p style="font-size: 1.2em; text-align: center;">Добро пожаловать, <strong style="color: blue;">{{ login }}</strong>!</p>
+    <div style="text-align: center;">
+        <a href="{{ url_for('lab5.lab5_home') }}" style="margin: 0 10px;">На главную</a>
+        <a href="{{ url_for('lab5.list_articles') }}" style="margin: 0 10px;">Список статей</a>
+        <a href="{{ url_for('lab5.create') }}" style="margin: 0 10px;">Создать статью</a>
+    </div>
+{% endblock %}

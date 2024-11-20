@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Статьи</h1>
+    {% if articles %}
+        <ul class="article-list">
+            {% for article in articles %}
+                <li class="article-item">
+                    <h2>{{ article['title'] }}</h2>
+                    <p>{{ article['article_text'] or "Описание отсутствует" }}</p>
+                    <div class="article-actions">
+                        <form action="{{ url_for('lab5.delete_article', article_id=article['id']) }}" method="post" style="display:inline;">
+                            {{ csrf_token() }}
+                            <button type="submit" class="btn-delete">Удалить</button>
+                        </form>
+                        <a href="{{ url_for('lab5.edit_article', article_id=article['id']) }}" class="btn-edit">Редактировать</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Статей пока нет. <a href="{{ url_for('lab5.create') }}">Создать первую статью</a>.</p>
+    {% endif %}
+    <a href="{{ url_for('lab5.lab5_home') }}" class="btn btn-secondary">На главную</a>
+{% endblock %}

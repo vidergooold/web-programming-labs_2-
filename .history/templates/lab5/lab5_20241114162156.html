@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>База знаний</title>
+    <style>
+        /* Стили для кнопок и панели */
+        .navbar {
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navbar a, .navbar form {
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            background-color: #b3e0ff;
+            border-radius: 5px;
+            color: black;
+        }
+        .navbar a:hover, .navbar form button:hover {
+            background-color: #add8e6;
+        }
+        .navbar span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .navbar form {
+            display: inline;
+        }
+        .navbar form button {
+            background: none;
+            border: none;
+            color: black;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="/lab5/list">Список статей</a>
+            <a href="/lab5/create">Создать статью</a>
+            <a href="/lab5/public_articles">Публичные статьи</a>
+            <a href="/lab5/users">Пользователи</a>
+        </div>
+        <div>
+            {% if user_name == "Anonymous" %}
+                <a href="/lab5/login">Войти</a>
+                <a href="/lab5/register">Регистрация</a>
+            {% else %}
+                <form action="/lab5/logout" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+            {% endif %}
+            <span>{{ user_name or "Anonymous" }}</span>
+        </div>
+    </div>
+
+    <h1>База знаний</h1>
+
+    {% block main %}{% endblock %}
+</body>
+</html>

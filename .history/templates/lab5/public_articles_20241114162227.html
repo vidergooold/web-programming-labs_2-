@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Публичные статьи</h1>
+    {% if articles %}
+        {% for article in articles %}
+            <h2>{{ article['title'] }}</h2>
+            <blockquote>{{ article['article_text'] | safe }}</blockquote>
+        {% endfor %}
+    {% else %}
+        <p>Нет публичных статей.</p>
+    {% endif %}
+{% endblock %}

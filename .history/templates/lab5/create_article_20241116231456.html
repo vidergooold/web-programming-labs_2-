@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Создание статьи</h1>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="post" class="create-article-form">
+        {{ csrf_token() }}
+        <div class="form-group">
+            <label for="title">Название статьи:</label>
+            <input type="text" id="title" name="title" maxlength="50" required placeholder="Введите название статьи" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="article_text">Содержание статьи:</label>
+            <textarea id="article_text" name="article_text" maxlength="1000" required placeholder="Введите текст статьи" class="form-control"></textarea>
+        </div>
+        <div class="form-check">
+            <label>
+                <input type="checkbox" name="is_favorite" class="form-check-input"> Сделать статью любимой
+            </label>
+        </div>
+        <div class="form-check">
+            <label>
+                <input type="checkbox" name="is_public" class="form-check-input"> Сделать статью публичной
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Готово</button>
+    </form>
+    <a href="{{ url_for('lab5.lab5_home') }}" class="btn btn-secondary">Назад</a>
+{% endblock %}

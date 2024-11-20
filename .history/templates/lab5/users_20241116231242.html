@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Зарегистрированные пользователи</h1>
+    {% if users %}
+        <ul class="user-list">
+            {% for user in users %}
+                <li class="user-item">{{ loop.index }}. {{ user['login'] }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет зарегистрированных пользователей.</p>
+    {% endif %}
+    <a href="{{ url_for('lab5.lab5_home') }}" class="btn btn-primary">На главную</a>
+{% endblock %}

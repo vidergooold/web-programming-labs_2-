@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Публичные статьи</h1>
+    {% if articles %}
+        <div class="articles-list">
+            {% for article in articles %}
+                <div class="article">
+                    <h2><a href="{{ url_for('lab5.view_article', article_id=article['id']) }}">{{ article['title'] }}</a></h2>
+                    <blockquote class="article-text">{{ article['article_text'] | safe }}</blockquote>
+                    <p>Опубликовано: {{ article['publish_date'] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет публичных статей. <a href="{{ url_for('lab5.create') }}">Создайте первую статью!</a></p>
+    {% endif %}
+    <a href="{{ url_for('lab5.lab5_home') }}" class="btn btn-secondary">На главную</a>
+{% endblock %}
