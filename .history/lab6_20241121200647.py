@@ -3,7 +3,7 @@ import sqlite3
 
 lab6 = Blueprint('lab6', __name__)
 
-# Инициализация базы данных и создание таблицы
+# Инициализация базы данных и создание таблицы offices
 def init_db():
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
@@ -17,27 +17,31 @@ def init_db():
         ''')
         conn.commit()
 
-# Заполнение базы данных начальными данными
+# Добавить данные в таблицу offices (если данные еще не добавлены)
 def populate_offices():
     with sqlite3.connect('database.db') as conn:
         cur = conn.cursor()
         cur.execute('SELECT COUNT(*) FROM offices')
         if cur.fetchone()[0] == 0:
-            offices = [{"number": i, "tenant": None, "price": 900 + i * 10} for i in range(1, 11)]
+            offices = [
+                {"number": i, "tenant": None, "price": 900 + i * 10} for i in range(1, 11)
+            ]
             for office in offices:
-                cur.execute('INSERT INTO offices (number, tenant, price) VALUES (?, ?, ?)', 
-                            (office['number'], office['tenant'], office['price']))
+                cur.execute(
+                    'INSERT INTO offices (number, tenant, price) VALUES (?, ?, ?)',
+                    (office['number'], office['tenant'], office['price'])
+                )
             conn.commit()
 
-# Выполнение инициализации
+# Выполнить инициализацию и заполнение базы данных
 init_db()
 populate_offices()
 
-@lab6.route('/')
+@lab6.route('/lab6/')
 def lab():
     return render_template('lab6/lab6.html')
 
-@lab6.route('/json-rpc-api/', methods=['POST'])
+@lab6.route('/lab6/lab6/json-rpc-api/', methods=['POST'])
 def api():
     data = request.json
     id = data.get('id')
@@ -50,15 +54,18 @@ def api():
         with sqlite3.connect('database.db') as conn:
             cur = conn.cursor()
 
+            # Обработчик метода info
             if method == 'info':
                 cur.execute('SELECT number, tenant, price FROM offices')
                 offices = [{'number': row[0], 'tenant': row[1], 'price': row[2]} for row in cur.fetchall()]
                 return jsonify({'jsonrpc': '2.0', 'result': offices, 'id': id})
 
+            # Проверка авторизации
             login = session.get('login')
             if not login:
                 return jsonify({'jsonrpc': '2.0', 'error': {'code': 1, 'message': 'Unauthorized'}, 'id': id})
 
+            # Обработчик метода booking
             if method == 'booking':
                 office_number = data.get('params')
                 if not office_number:
@@ -71,6 +78,7 @@ def api():
                 conn.commit()
                 return jsonify({'jsonrpc': '2.0', 'result': 'success', 'id': id})
 
+            # Обработчик метода cancellation
             if method == 'cancellation':
                 office_number = data.get('params')
                 if not office_number:
@@ -82,12 +90,6 @@ def api():
                 cur.execute('UPDATE offices SET tenant = NULL WHERE number = ?', (office_number,))
                 conn.commit()
                 return jsonify({'jsonrpc': '2.0', 'result': 'success', 'id': id})
-
-            # Новый метод: общая стоимость аренды
-            if method == 'total_cost':
-                cur.execute('SELECT SUM(price) FROM offices WHERE tenant = ?', (login,))
-                total = cur.fetchone()[0] or 0
-                return jsonify({'jsonrpc': '2.0', 'result': total, 'id': id})
 
             return jsonify({'jsonrpc': '2.0', 'error': {'code': -32601, 'message': 'Method not found'}, 'id': id})
     except sqlite3.Error as e:

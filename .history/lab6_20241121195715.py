@@ -83,12 +83,6 @@ def api():
                 conn.commit()
                 return jsonify({'jsonrpc': '2.0', 'result': 'success', 'id': id})
 
-            # Новый метод: общая стоимость аренды
-            if method == 'total_cost':
-                cur.execute('SELECT SUM(price) FROM offices WHERE tenant = ?', (login,))
-                total = cur.fetchone()[0] or 0
-                return jsonify({'jsonrpc': '2.0', 'result': total, 'id': id})
-
             return jsonify({'jsonrpc': '2.0', 'error': {'code': -32601, 'message': 'Method not found'}, 'id': id})
     except sqlite3.Error as e:
         return jsonify({'jsonrpc': '2.0', 'error': {'code': 500, 'message': str(e)}, 'id': id})

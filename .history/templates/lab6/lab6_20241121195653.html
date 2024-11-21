@@ -39,7 +39,6 @@
                 }
                 ul.appendChild(li);
             });
-            getTotalCost(); // Обновляем общую стоимость аренды
         })
         .catch(error => console.error('Ошибка:', error));
     }
@@ -80,27 +79,6 @@
         .catch(error => console.error('Ошибка:', error));
     }
 
-    function getTotalCost() {
-        const url = '/lab6/json-rpc-api/';
-        const json = {
-            'jsonrpc': '2.0',
-            'method': 'total_cost',
-            'id': Math.round(Math.random() * 1000)
-        };
-
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(json)
-        })
-        .then(response => response.json())
-        .then(data => {
-            const totalCost = data.result || 0;
-            document.getElementById('total-cost').innerText = `Общая стоимость аренды: ${totalCost} руб.`;
-        })
-        .catch(error => console.error('Ошибка:', error));
-    }
-
     document.addEventListener('DOMContentLoaded', () => getOfficeList());
 </script>
 {% endblock %}
@@ -108,5 +86,4 @@
 {% block main %}
 <h1>Список кабинетов</h1>
 <ul id="office-list"></ul>
-<p id="total-cost">Общая стоимость аренды: 0 руб.</p>
 {% endblock %}
