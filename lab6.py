@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, session
 import sqlite3
+import hashlib
 
 lab6 = Blueprint('lab6', __name__)
 
