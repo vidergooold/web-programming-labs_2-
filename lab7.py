@@ -34,7 +34,6 @@ def get_films():
 
 @lab7.route('/lab7/rest-api/films/<int:id>/', methods=['GET'])
 def get_film(id):
-    # Проверяем, находится ли ID в допустимом диапазоне
     if 0 <= id < len(films):
         return jsonify(films[id])
     else:
@@ -42,27 +41,27 @@ def get_film(id):
 
 @lab7.route('/lab7/rest-api/films/<int:id>/', methods=['DELETE'])
 def del_film(id):
-    # Проверяем, находится ли ID в допустимом диапазоне
     if 0 <= id < len(films):
-        del films[id]  # Удаляем фильм с заданным ID
-        return '', 204  # Возвращаем пустой ответ с кодом 204 No Content
+        del films[id]
+        return '', 204
     else:
         abort(404, description="Фильм с таким ID не найден")
 
 @lab7.route('/lab7/rest-api/films/<int:id>/', methods=['PUT'])
 def put_film(id):
-    # Проверяем, находится ли ID в допустимом диапазоне
     if 0 <= id < len(films):
-        # Получаем данные из тела запроса в формате JSON
         film = request.get_json()
-
-        # Проверяем, содержит ли тело запроса все необходимые поля
         if not film or not all(key in film for key in ["title", "title_ru", "year", "description"]):
             abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
-
-        # Обновляем данные фильма
         films[id] = film
-        return jsonify(films[id])  # Возвращаем обновленный фильм
+        return jsonify(films[id])
     else:
-        # Если ID некорректен, возвращаем ошибку 404
         abort(404, description="Фильм с таким ID не найден")
+
+@lab7.route('/lab7/rest-api/films/', methods=['POST'])
+def add_film():
+    film = request.get_json()
+    if not film or not all(key in film for key in ["title", "title_ru", "year", "description"]):
+        abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
+    films.append(film)
+    return jsonify({"id": len(films) - 1}), 201
