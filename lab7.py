@@ -15,14 +15,14 @@ def get_db_connection():
 def lab():
     return render_template('lab7/lab7.html')
 
-@lab7.route('/lab7/rest-api/films/', methods=['GET'])
+@lab7.route('/rest-api/films/', methods=['GET'])
 def get_films():
     conn = get_db_connection()
     films = conn.execute('SELECT * FROM films').fetchall()
     conn.close()
     return jsonify([dict(film) for film in films])
 
-@lab7.route('/lab7/rest-api/films/<int:id>/', methods=['GET'])
+@lab7.route('/rest-api/films/<int:id>/', methods=['GET'])
 def get_film(id):
     conn = get_db_connection()
     film = conn.execute('SELECT * FROM films WHERE id = ?', (id,)).fetchone()
@@ -31,7 +31,7 @@ def get_film(id):
         abort(404, description="Фильм с таким ID не найден")
     return jsonify(dict(film))
 
-@lab7.route('/lab7/rest-api/films/<int:id>/', methods=['DELETE'])
+@lab7.route('/rest-api/films/<int:id>/', methods=['DELETE'])
 def del_film(id):
     conn = get_db_connection()
     film = conn.execute('SELECT * FROM films WHERE id = ?', (id,)).fetchone()
@@ -43,7 +43,7 @@ def del_film(id):
     conn.close()
     return '', 204
 
-@lab7.route('/lab7/rest-api/films/<int:id>/', methods=['PUT'])
+@lab7.route('/rest-api/films/<int:id>/', methods=['PUT'])
 def put_film(id):
     conn = get_db_connection()
     film = conn.execute('SELECT * FROM films WHERE id = ?', (id,)).fetchone()
@@ -80,7 +80,7 @@ def put_film(id):
     conn.close()
     return jsonify(data)
 
-@lab7.route('/lab7/rest-api/films/', methods=['POST'])
+@lab7.route('/rest-api/films/', methods=['POST'])
 def add_film():
     data = request.get_json()
     if not data:
