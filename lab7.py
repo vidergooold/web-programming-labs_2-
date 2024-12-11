@@ -53,6 +53,8 @@ def put_film(id):
         film = request.get_json()
         if not film or not all(key in film for key in ["title", "title_ru", "year", "description"]):
             abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
+        if film["description"] == "":
+            return {"description": "Заполните описание"}, 400
         films[id] = film
         return jsonify(films[id])
     else:
@@ -63,6 +65,8 @@ def add_film():
     film = request.get_json()
     if not film or not all(key in film for key in ["title", "title_ru", "year", "description"]):
         abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
+    if film["description"] == "":
+        return {"description": "Заполните описание"}, 400
     films.append(film)
     return jsonify({"id": len(films) - 1}), 201
 
