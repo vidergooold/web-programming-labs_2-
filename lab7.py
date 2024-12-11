@@ -24,9 +24,9 @@ films = [
     }
 ]
 
-@lab7.route('/lab7/')
-def main():
-    return render_template('lab7/index.html')
+@lab7.route('/')
+def lab():
+    return render_template('lab7/lab7.html')
 
 @lab7.route('/lab7/rest-api/films/', methods=['GET'])
 def get_films():
@@ -34,10 +34,19 @@ def get_films():
 
 @lab7.route('/lab7/rest-api/films/<int:id>/', methods=['GET'])
 def get_film(id):
-    # Проверяем, находится ли ID в диапазоне от 0 до длины списка минус один
     if 0 <= id < len(films):
         return jsonify(films[id])
     else:
-        # Если ID некорректен, возвращаем ошибку 404
         abort(404, description="Фильм с таким ID не найден")
+
+@lab7.route('/lab7/rest-api/films/<int:id>/', methods=['DELETE'])
+def del_film(id):
+    # Проверяем, находится ли ID в допустимом диапазоне
+    if 0 <= id < len(films):
+        del films[id]  # Удаляем фильм с заданным ID
+        return '', 204  # Возвращаем пустой ответ с кодом 204 No Content
+    else:
+        # Если ID не корректен, возвращаем ошибку 404
+        abort(404, description="Фильм с таким ID не найден")
+
 
