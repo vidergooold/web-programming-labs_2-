@@ -65,3 +65,4 @@ def add_film():
         abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
     films.append(film)
     return jsonify({"id": len(films) - 1}), 201
+

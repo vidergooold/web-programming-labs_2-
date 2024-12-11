@@ -18,9 +18,6 @@
         padding: 20px;
     }
 </style>
-<script>
-    document.addEventListener('DOMContentLoaded', fillFilmList); // Запускаем заполнение таблицы
-</script>
 {% endblock %}
 
 {% block main %}
@@ -29,8 +26,7 @@
 <table>
     <thead>
         <tr>
-            <th>Название</th>
-            <th>На русском</th>
+            <th colspan="2">Название</th>
             <th>Год</th>
             <th>Действие</th>
         </tr>
