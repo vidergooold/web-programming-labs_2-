@@ -55,6 +55,9 @@ def put_film(id):
             abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
         if film["description"] == "":
             return {"description": "Заполните описание"}, 400
+        # Логика: если оригинальное название пустое, заполняем его русским названием
+        if film["title"] == "" and film["title_ru"]:
+            film["title"] = film["title_ru"]
         films[id] = film
         return jsonify(films[id])
     else:
@@ -67,6 +70,9 @@ def add_film():
         abort(400, description="Неполные данные фильма. Ожидаются: title, title_ru, year, description")
     if film["description"] == "":
         return {"description": "Заполните описание"}, 400
+    # Логика: если оригинальное название пустое, заполняем его русским названием
+    if film["title"] == "" and film["title_ru"]:
+        film["title"] = film["title_ru"]
     films.append(film)
     return jsonify({"id": len(films) - 1}), 201
 
