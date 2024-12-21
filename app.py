@@ -5,7 +5,7 @@ from os import path
 from flask_sqlalchemy import SQLAlchemy
 from db import db
 from flask_login import LoginManager
-from db.models import users
+from db import users
 
 # Добавьте после инициализации `app`
 login_manager = LoginManager()
@@ -177,6 +177,10 @@ def internal_server_error(e):
     </body>
 </html>
 ''', 500
+
+login_manager = LoginManager()
+login_manager.login_view = 'lab8.login'
+login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
