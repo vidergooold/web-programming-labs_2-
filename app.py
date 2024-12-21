@@ -62,7 +62,7 @@ def index():
     lab6_url = url_for('lab6.lab')
     lab7_url = url_for('lab7.lab')
     lab8_url = url_for('lab8.lab')
-    rgz_url = url_for('rgz.books_list') 
+    rgz_url = url_for('rgz.lab') 
 
     return f'''
 <!doctype html>
