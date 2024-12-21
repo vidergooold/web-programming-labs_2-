@@ -1,7 +1,4 @@
 {% extends "base.html" %}
-
-{% block lab %}Лабораторная работа 8{% endblock %}
-
 {% block main %}
 <h1>Вход в систему</h1>
 <form action="/lab8/login" method="post">
@@ -11,9 +8,12 @@
     <div>
         <label>Пароль: <input type="password" name="password"></label>
     </div>
-    <button type="submit">Вход</button>
+    <div>
+        <label><input type="checkbox" name="remember"> Запомнить меня</label>
+    </div>
+    <button type="submit">Войти</button>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
 </form>
-{% if error %}
-<div style="color: red;">{{ error }}</div>
-{% endif %}
 {% endblock %}
