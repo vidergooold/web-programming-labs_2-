@@ -4,6 +4,14 @@ import os
 from os import path
 from flask_sqlalchemy import SQLAlchemy
 from db import db
+from flask_login import LoginManager
+from db.models import users
+
+# Добавьте после инициализации `app`
+login_manager = LoginManager()
+login_manager.login_view = 'lab8.login'
+login_manager.init_app(app)
+
 
 from lab1 import lab1
 from lab2 import lab2
@@ -170,3 +178,6 @@ def internal_server_error(e):
 </html>
 ''', 500
 
+@login_manager.user_loader
+def load_user(user_id):
+    return users.query.get(int(user_id))
