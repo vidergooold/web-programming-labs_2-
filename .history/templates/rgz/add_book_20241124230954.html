@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Добавить книгу</h1>
+<form method="post">
+    <label>Название: <input type="text" name="title"></label>
+    <label>Автор: <input type="text" name="author"></label>
+    <label>Страницы: <input type="number" name="pages"></label>
+    <label>Издатель: <input type="text" name="publisher"></label>
+    <label>Обложка: <input type="text" name="cover"></label>
+    <button type="submit">Добавить</button>
+</form>
+{% endblock %}

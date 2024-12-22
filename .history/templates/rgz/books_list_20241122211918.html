@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block lab %}Список книг{% endblock %}
+
+{% block main %}
+    <h1>Список книг</h1>
+
+    <!-- Форма фильтрации -->
+    <form method="get" action="{{ url_for('rgz.books_list') }}">
+        <label>Название: <input type="text" name="title" value="{{ filters.get('title', '') }}"></label>
+        <label>Автор: <input type="text" name="author" value="{{ filters.get('author', '') }}"></label>
+        <label>Мин. страниц: <input type="number" name="min_pages" value="{{ filters.get('min_pages', '') }}"></label>
+        <label>Макс. страниц: <input type="number" name="max_pages" value="{{ filters.get('max_pages', '') }}"></label>
+        <label>Сортировка:
+            <select name="sort_by">
+                <option value="title" {% if filters.get('sort_by') == 'title' %}selected{% endif %}>Название</option>
+                <option value="author" {% if filters.get('sort_by') == 'author' %}selected{% endif %}>Автор</option>
+                <option value="pages" {% if filters.get('sort_by') == 'pages' %}selected{% endif %}>Страницы</option>
+                <option value="publisher" {% if filters.get('sort_by') == 'publisher' %}selected{% endif %}>Издатель</option>
+            </select>
+        </label>
+        <button type="submit">Применить</button>
+        {% if filters %}
+            <a href="{{ url_for('rgz.books_list') }}">Сбросить фильтры</a>
+        {% endif %}
+    </form>
+
+    <!-- Таблица списка книг -->
+    <table>
+        <thead>
+            <tr>
+                <th>Обложка</th>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>Страницы</th>
+                <th>Издатель</th>
+                {% if session.get('is_admin') %}
+                <th>Действия</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>
+                    {% if book.cover %}
+                        <img src="{{ book.cover }}" alt="Обложка книги" style="max-width: 100px;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='default_cover.jpg') }}" alt="Обложка отсутствует" style="max-width: 100px;">
+                    {% endif %}
+                </td>
+                <td><a href="{{ url_for('rgz.book_details', book_id=book.id) }}">{{ book.title }}</a></td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.pages }}</td>
+                <td>{{ book.publisher }}</td>
+                {% if session.get('is_admin') %}
+                <td>
+                    <a href="{{ url_for('rgz.edit_book', book_id=book.id) }}">Редактировать</a>
+                    <form action="{{ url_for('rgz.delete_book', book_id=book.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Вы уверены, что хотите удалить эту книгу?');">
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Пагинация -->
+    <p>Страница {{ page }} из {{ total_pages }}</p>
+    <div>
+        <a href="{{ url_for('rgz.books_list', title=filters.get('title', ''), author=filters.get('author', ''), min_pages=filters.get('min_pages', ''), max_pages=filters.get('max_pages', ''), sort_by=filters.get('sort_by', ''), page=page-1) }}" {% if page <= 1 %}style="visibility: hidden;"{% endif %}>Предыдущая</a>
+        <a href="{{ url_for('rgz.books_list', title=filters.get('title', ''), author=filters.get('author', ''), min_pages=filters.get('min_pages', ''), max_pages=filters.get('max_pages', ''), sort_by=filters.get('sort_by', ''), page=page+1) }}" {% if page >= total_pages %}style="visibility: hidden;"{% endif %}>Следующая</a>
+    </div>
+    {% endblock %}

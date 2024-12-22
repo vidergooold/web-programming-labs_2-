@@ -1,0 +1,13 @@
+@lab8.route('/public-articles')
+def public_articles():
+    # Соединение таблиц статей и пользователей
+    articles = db.session.query(
+        Lab8Articles.id,
+        Lab8Articles.title,
+        Lab8Articles.article_text,
+        Lab8Users.login.label('author')  # Получаем логин пользователя как имя автора
+    ).join(Lab8Users, Lab8Articles.login_id == Lab8Users.id).filter(
+        Lab8Articles.is_public == True
+    ).all()
+
+    return render_template('lab8/public_articles.html', articles=articles)

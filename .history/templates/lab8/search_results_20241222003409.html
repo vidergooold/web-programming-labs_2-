@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Результаты поиска</h1>
+<p>Результаты поиска по запросу: <strong>{{ query }}</strong></p>
+<ul>
+    {% for article in articles %}
+    <li>
+        <strong>{{ article.title }}</strong>: {{ article.article_text }}
+        <p><i>Автор: {{ article.login_id }}</i></p>
+    </li>
+    {% endfor %}
+</ul>
+<a href="/lab8/search">Назад к поиску</a>
+{% endblock %}

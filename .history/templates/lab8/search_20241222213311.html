@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Поиск статей</h1>
+<form action="{{ url_for('lab8.search_articles') }}" method="post">
+    <div>
+        <label>Введите строку для поиска: <input type="text" name="query"></label>
+    </div>
+    <button type="submit">Поиск</button>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</form>
+{% endblock %}

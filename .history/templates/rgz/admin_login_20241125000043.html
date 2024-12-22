@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Вход для администратора</h1>
+<form method="post">
+    <label>Логин: <input type="text" name="username"></label>
+    <label>Пароль: <input type="password" name="password"></label>
+    <button type="submit">Войти</button>
+</form>
+<a href="{{ url_for('rgz.books_list') }}">Вернуться к списку книг</a>
+{% endblock %}
+
+

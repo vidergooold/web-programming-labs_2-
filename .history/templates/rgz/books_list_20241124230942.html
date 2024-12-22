@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Список книг</h1>
+<form method="get">
+    <label>Название: <input type="text" name="title"></label>
+    <label>Автор: <input type="text" name="author"></label>
+    <label>Мин. страниц: <input type="number" name="min_pages"></label>
+    <label>Макс. страниц: <input type="number" name="max_pages"></label>
+    <button type="submit">Применить</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Обложка</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Страницы</th>
+            <th>Издатель</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td><img src="{{ url_for('static', filename=book.cover) }}"></td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.pages }}</td>
+            <td>{{ book.publisher }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

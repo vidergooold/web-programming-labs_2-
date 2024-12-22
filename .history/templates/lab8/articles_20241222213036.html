@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Ваши статьи</h1>
+<ul>
+    {% for article in articles %}
+    <li>{{ article.title }} - <a href="{{ url_for('lab8.edit_article', article_id=article.id) }}">Редактировать</a> - 
+        <form action="{{ url_for('lab8.delete_article', article_id=article.id) }}" method="post" style="display:inline;">
+            <button type="submit">Удалить</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('lab8.create_article') }}">Создать новую статью</a>
+{% endblock %}

@@ -1,0 +1,8 @@
+<h1>Результаты поиска</h1>
+<ul>
+    {% for article in articles %}
+    <li>
+        <strong>{{ article.title }}</strong>: {{ article.article_text }}
+    </li>
+    {% endfor %}
+</ul>

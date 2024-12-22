@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block lab %}
+Лабораторная работа 8
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block main %}
+<h1>Лабораторная работа 8</h1>
+<p>Пользователь: {{ user }}</p>
+<ul>
+    <li><a href="{{ url_for('lab8.register') }}">Регистрация</a></li>
+    <li><a href="{{ url_for('lab8.login') }}">Вход</a></li>
+    <li><a href="{{ url_for('lab8.articles') }}">Мои статьи</a></li>
+    <li><a href="{{ url_for('lab8.public_articles') }}">Публичные статьи</a></li>
+    <li><a href="{{ url_for('lab8.logout') }}">Выход</a></li>
+</ul>
+{% endblock %}
