@@ -23,9 +23,10 @@
             {% endif %}
         }
     </style>
-    {% block script %}{% endblock %}
+    {% block script %}
+    {% endblock %}
 </head>
-<body>
+<body class="{% if 'lab9' in request.path %}lab9-page{% else %}default-page{% endif %}">
     <header>
         <a href="/">Главное меню</a><br>
         WEB-программирование, часть 2. {{ self.lab() }}

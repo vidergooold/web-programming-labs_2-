@@ -212,3 +212,56 @@ h1 {
     font-size: 0.9em;        
     margin-left: 10px;       
 }
+
+#lab9_styles
+
+/* Новогодний фон для 9-й лабораторной */
+.lab9-page {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: #fff; /* Белый текст для контраста */
+}
+
+/* Стили для заголовков и текста в новогоднем стиле */
+.lab9-page h1, .lab9-page h2, .lab9-page h3 {
+    color: #ffcc00; /* Золотистый цвет для заголовков */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.lab9-page a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.lab9-page a:hover {
+    text-decoration: underline;
+}
+
+/* Новогодний стиль для кнопок */
+.lab9-page button {
+    background-color: #ff4444; /* Красный фон кнопки */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease;
+}
+
+.lab9-page button:hover {
+    background-color: #cc0000; /* Более темный красный */
+}
+
+/* Стиль для footer в новогодней странице */
+.lab9-page footer {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 20px;
+    font-size: 1em;
+    text-align: center;
+}
+

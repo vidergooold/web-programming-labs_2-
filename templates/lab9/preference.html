@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>🎄Что ты любишь больше всего?🎄</h1>
+<form action="{{ url_for('lab9.preference_input') }}" method="post">
+  <label for="preference">Выберите предпочтение:</label>
+  <select name="preference" id="preference">
+      <option value="что-то вкусное">Что-то вкусное</option>
+      <option value="что-то другое">Что-то поинтереснее</option>
+  </select>
+  <button type="submit">Далее</button> 
+</form>
+{% endblock %}
+

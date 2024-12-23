@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>🎄Кто ты?🎄</h1>
+<form action="{{ url_for('lab9.gender_input') }}" method="post">
+    <label>
+        <input type="radio" name="gender" value="male" required> Мальчик
+    </label>
+    <label>
+        <input type="radio" name="gender" value="female"> Девочка
+    </label>
+    <button type="submit">Далее</button>
+</form>
+{% endblock %}
+
+

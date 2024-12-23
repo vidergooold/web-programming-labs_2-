@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>🎄Как тебя зовут?🎄</h1>
+<form action="{{ url_for('lab9.name_input') }}" method="post">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Далее</button>
+</form>
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>🎄Сколько тебе лет?🎄</h1>
+<form action="{{ url_for('lab9.age_input') }}" method="post">
+    <label for="age">Возраст:</label>
+    <input type="number" id="age" name="age" min="1" required>
+    <button type="submit">Далее</button>
+</form>
+{% endblock %}
+
+
