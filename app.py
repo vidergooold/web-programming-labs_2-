@@ -16,6 +16,8 @@ from lab5 import lab5
 from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
+from lab9 import lab9
+from bookk import bookk
 
 load_dotenv()
 
@@ -40,7 +42,9 @@ app.register_blueprint(lab4, url_prefix='/lab4')
 app.register_blueprint(lab5, url_prefix='/lab5')
 app.register_blueprint(lab6, url_prefix='/lab6')
 app.register_blueprint(lab7, url_prefix='/lab7')
-app.register_blueprint(lab8, url_prefix='/lab8') 
+app.register_blueprint(lab8, url_prefix='/lab8')
+app.register_blueprint(lab9, url_prefix='/lab9')
+app.register_blueprint(bookk, url_prefix='/bookk') 
 
 # Глобальная переменная для отслеживания состояния ресурса
 resource_created = False
@@ -57,7 +61,9 @@ def index():
     lab5_url = url_for('lab5.lab')
     lab6_url = url_for('lab6.lab')
     lab7_url = url_for('lab7.lab')
-    lab8_url = url_for('lab8.lab') 
+    lab8_url = url_for('lab8.lab')
+    lab9_url = url_for('lab9.lab')
+    bookk_url = url_for('bookk.books_list')  
 
     return f'''
 <!doctype html>
@@ -80,6 +86,8 @@ def index():
                     <li><a href="{lab6_url}">Лабораторная 6</a></li>
                     <li><a href="{lab7_url}">Лабораторная 7</a></li>
                     <li><a href="{lab8_url}">Лабораторная 8</a></li>
+                    <li><a href="{lab9_url}">Лабораторная 9</a></li>
+                    <li><a href="{bookk_url}">bookk</a></li>
                 </ul>
             </nav>
         </div>

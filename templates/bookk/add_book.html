@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block lab %}Добавить книгу{% endblock %}
+{% block main %}
+<h1>Добавить книгу</h1>
+<form method="post">
+    <label>Название: <input type="text" name="title" required></label><br>
+    <label>Автор: <input type="text" name="author" required></label><br>
+    <label>Количество страниц: <input type="number" name="pages" required></label><br>
+    <label>Издатель: <input type="text" name="publisher" required></label><br>
+    <label>Путь к обложке: <input type="text" name="cover" placeholder="static/covers/example.jpg" required></label><br>
+    <button type="submit">Добавить</button>
+</form>
+<a href="{{ url_for('bookk.books_list') }}">Вернуться к списку</a>
+{% endblock %}
